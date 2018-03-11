@@ -25,5 +25,6 @@ private:
 	void nextFrame();
 	void closeCamara();
 	void camshot();
+	void Read_Data();
 };
 static QImage Mat2QImage(Mat& image);

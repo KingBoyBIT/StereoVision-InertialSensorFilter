@@ -5,10 +5,12 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/videoio.hpp> // for camera
 #include <opencv.hpp>
+#include <QtSerialPort/QSerialPort>  
+#include <QtSerialPort/QSerialPortInfo>  
 
 using namespace cv;
 
-
+QSerialPort *serial = new QSerialPort;
 QtGuiVisionPrj::QtGuiVisionPrj(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -20,6 +22,22 @@ QtGuiVisionPrj::QtGuiVisionPrj(QWidget *parent)
 	connect(timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
 	connect(ui.CloseCamBtn, SIGNAL(clicked()), this, SLOT(closeCamara()));
 	connect(ui.CamshotBtn, SIGNAL(clicked()), this, SLOT(camshot()));
+
+	//QSerialPort *serial = new QSerialPort;
+	//设置串口名  
+	serial->setPortName("COM3");
+	//打开串口  
+	serial->open(QIODevice::ReadWrite);
+	//设置波特率  
+	serial->setBaudRate(9600);
+	//设置数据位数  
+	serial->setDataBits(QSerialPort::Data8);
+	//设置奇偶校验  
+	serial->setParity(QSerialPort::NoParity);
+	//设置停止位  
+	serial->setStopBits(QSerialPort::OneStop);
+	//设置流控制  
+	serial->setFlowControl(QSerialPort::NoFlowControl);
 }
 void QtGuiVisionPrj::opencam()
 {
@@ -110,4 +128,17 @@ void QtGuiVisionPrj::camshot()
 	*imgScaled = imgc->scaled(ui.campicblack->width(), ui.campicblack->height(), Qt::KeepAspectRatio);
 
 	ui.campicblackshot->setPixmap(QPixmap::fromImage(*imgScaled));
+}
+void QtGuiVisionPrj::Read_Data()
+{
+	QByteArray buf;
+	buf = serial->readAll();
+	if (!buf.isEmpty())
+	{
+		QString str = ui->textEdit->toPlainText();
+		str += tr(buf);
+		ui->textEdit->clear();
+		ui->textEdit->append(str);
+	}
+	buf.clear();
 }

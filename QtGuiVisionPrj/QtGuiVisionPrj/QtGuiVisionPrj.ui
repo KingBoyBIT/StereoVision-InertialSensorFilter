@@ -40,6 +40,9 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="0" colspan="3">
+         <widget class="QTextEdit" name="textEdit"/>
+        </item>
        </layout>
       </item>
       <item row="1" column="0">

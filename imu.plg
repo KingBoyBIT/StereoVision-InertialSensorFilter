@@ -1,0 +1,83 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+D:\Codes\githubcodes\StereoVision-InertialSensorFilter\imu.uv2
+Project File Date:  03/11/2018
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling MPU6050.c...
+MPU6050.C(1): error C100: unprintable character 0xEF skipped
+MPU6050.C(1): error C100: unprintable character 0xBB skipped
+MPU6050.C(1): error C100: unprintable character 0xBF skipped
+MPU6050.C(348): error C202: 'tempdatatempdata': undefined identifier
+MPU6050.C(363): error C202: 'tempdatatempdata': undefined identifier
+MPU6050.C(384): error C241: 'main': auto segment too large
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling MPU6050.c...
+MPU6050.C(1): error C100: unprintable character 0xEF skipped
+MPU6050.C(1): error C100: unprintable character 0xBB skipped
+MPU6050.C(1): error C100: unprintable character 0xBF skipped
+MPU6050.C(348): error C202: 'tempdatatempdata': undefined identifier
+MPU6050.C(363): error C202: 'tempdatatempdata': undefined identifier
+MPU6050.C(384): error C241: 'main': auto segment too large
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling MPU6050.c...
+MPU6050.C(1): error C100: unprintable character 0xEF skipped
+MPU6050.C(1): error C100: unprintable character 0xBB skipped
+MPU6050.C(1): error C100: unprintable character 0xBF skipped
+MPU6050.C(363): error C202: 'tempdatatempdata': undefined identifier
+MPU6050.C(384): error C241: 'main': auto segment too large
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling MPU6050.c...
+MPU6050.C(1): error C100: unprintable character 0xEF skipped
+MPU6050.C(1): error C100: unprintable character 0xBB skipped
+MPU6050.C(1): error C100: unprintable character 0xBF skipped
+MPU6050.C(384): error C241: 'main': auto segment too large
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling MPU6050.c...
+MPU6050.C(1): error C100: unprintable character 0xEF skipped
+MPU6050.C(1): error C100: unprintable character 0xBB skipped
+MPU6050.C(1): error C100: unprintable character 0xBF skipped
+MPU6050.C(384): error C241: 'main': auto segment too large
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling MPU6050.c...
+MPU6050.C(275): warning C280: 'x': unreferenced local variable
+MPU6050.C(275): warning C280: 'y': unreferenced local variable
+MPU6050.C(384): error C241: 'main': auto segment too large
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling MPU6050.c...
+MPU6050.C(275): warning C280: 'x': unreferenced local variable
+MPU6050.C(275): warning C280: 'y': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY10BITDATA?MPU6050
+Program Size: data=9.1 xdata=222 code=1988
+creating hex file from "imu"...
+"imu" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling MPU6050.c...
+MPU6050.C(275): warning C280: 'x': unreferenced local variable
+MPU6050.C(275): warning C280: 'y': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY10BITDATA?MPU6050
+Program Size: data=9.1 xdata=222 code=2008
+creating hex file from "imu"...
+"imu" - 0 Error(s), 3 Warning(s).

@@ -36,7 +36,7 @@ public:
     QPushButton *CamshotBtn;
     QPushButton *OpenCamBtn;
     QPushButton *CloseCamBtn;
-    QTextEdit *textEdit;
+    QTextEdit *textEditin;
     QGridLayout *gridLayout;
     QLabel *campicblack;
     QLabel *campicwhite;
@@ -78,10 +78,10 @@ public:
 
         gridLayout_3->addWidget(CloseCamBtn, 0, 2, 1, 1);
 
-        textEdit = new QTextEdit(centralWidget);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
+        textEditin = new QTextEdit(centralWidget);
+        textEditin->setObjectName(QStringLiteral("textEditin"));
 
-        gridLayout_3->addWidget(textEdit, 1, 0, 1, 3);
+        gridLayout_3->addWidget(textEditin, 1, 0, 1, 3);
 
 
         gridLayout_2->addLayout(gridLayout_3, 0, 0, 1, 1);

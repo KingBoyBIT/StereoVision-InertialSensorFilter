@@ -41,7 +41,7 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="3">
-         <widget class="QTextEdit" name="textEdit"/>
+         <widget class="QTextEdit" name="textEditin"/>
         </item>
        </layout>
       </item>

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QtSerialPort/QSerialPort>  
+#include <QtSerialPort/QSerialPortInfo>  
 #include <QtWidgets/QMainWindow>
 #include "ui_QtGuiVisionPrj.h"
 #include <opencv2/core.hpp>
@@ -13,7 +15,6 @@ class QtGuiVisionPrj : public QMainWindow
 
 public:
 	QtGuiVisionPrj(QWidget *parent = Q_NULLPTR);
-
 private:
 	Ui::QtGuiVisionPrjClass ui;
 	QTimer *timer;

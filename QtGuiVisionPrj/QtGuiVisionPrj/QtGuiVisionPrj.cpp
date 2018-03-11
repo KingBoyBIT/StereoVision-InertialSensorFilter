@@ -10,7 +10,6 @@
 
 using namespace cv;
 
-QSerialPort *serial = new QSerialPort;
 QtGuiVisionPrj::QtGuiVisionPrj(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -23,7 +22,7 @@ QtGuiVisionPrj::QtGuiVisionPrj(QWidget *parent)
 	connect(ui.CloseCamBtn, SIGNAL(clicked()), this, SLOT(closeCamara()));
 	connect(ui.CamshotBtn, SIGNAL(clicked()), this, SLOT(camshot()));
 
-	//QSerialPort *serial = new QSerialPort;
+	QSerialPort *serial = new QSerialPort;
 	//设置串口名  
 	serial->setPortName("COM3");
 	//打开串口  
@@ -131,14 +130,5 @@ void QtGuiVisionPrj::camshot()
 }
 void QtGuiVisionPrj::Read_Data()
 {
-	QByteArray buf;
-	buf = serial->readAll();
-	if (!buf.isEmpty())
-	{
-		QString str = ui->textEdit->toPlainText();
-		str += tr(buf);
-		ui->textEdit->clear();
-		ui->textEdit->append(str);
-	}
-	buf.clear();
+	QString str = ui.textEditin->toPlainText();
 }

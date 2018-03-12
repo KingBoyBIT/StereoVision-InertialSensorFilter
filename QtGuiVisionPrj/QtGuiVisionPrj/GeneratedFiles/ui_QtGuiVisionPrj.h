@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -33,10 +34,13 @@ public:
     QGridLayout *gridLayout_4;
     QGridLayout *gridLayout_2;
     QGridLayout *gridLayout_3;
-    QPushButton *CamshotBtn;
+    QComboBox *PortBox;
     QPushButton *OpenCamBtn;
+    QPushButton *CamshotBtn;
     QPushButton *CloseCamBtn;
     QTextEdit *textEditin;
+    QPushButton *openSerialButton;
+    QPushButton *closeSerialButton;
     QGridLayout *gridLayout;
     QLabel *campicblack;
     QLabel *campicwhite;
@@ -63,15 +67,20 @@ public:
         gridLayout_3 = new QGridLayout();
         gridLayout_3->setSpacing(6);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        CamshotBtn = new QPushButton(centralWidget);
-        CamshotBtn->setObjectName(QStringLiteral("CamshotBtn"));
+        PortBox = new QComboBox(centralWidget);
+        PortBox->setObjectName(QStringLiteral("PortBox"));
 
-        gridLayout_3->addWidget(CamshotBtn, 0, 0, 1, 1);
+        gridLayout_3->addWidget(PortBox, 1, 2, 1, 1);
 
         OpenCamBtn = new QPushButton(centralWidget);
         OpenCamBtn->setObjectName(QStringLiteral("OpenCamBtn"));
 
         gridLayout_3->addWidget(OpenCamBtn, 0, 1, 1, 1);
+
+        CamshotBtn = new QPushButton(centralWidget);
+        CamshotBtn->setObjectName(QStringLiteral("CamshotBtn"));
+
+        gridLayout_3->addWidget(CamshotBtn, 0, 0, 1, 1);
 
         CloseCamBtn = new QPushButton(centralWidget);
         CloseCamBtn->setObjectName(QStringLiteral("CloseCamBtn"));
@@ -80,8 +89,23 @@ public:
 
         textEditin = new QTextEdit(centralWidget);
         textEditin->setObjectName(QStringLiteral("textEditin"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(textEditin->sizePolicy().hasHeightForWidth());
+        textEditin->setSizePolicy(sizePolicy);
 
-        gridLayout_3->addWidget(textEditin, 1, 0, 1, 3);
+        gridLayout_3->addWidget(textEditin, 2, 0, 1, 3);
+
+        openSerialButton = new QPushButton(centralWidget);
+        openSerialButton->setObjectName(QStringLiteral("openSerialButton"));
+
+        gridLayout_3->addWidget(openSerialButton, 1, 0, 1, 1);
+
+        closeSerialButton = new QPushButton(centralWidget);
+        closeSerialButton->setObjectName(QStringLiteral("closeSerialButton"));
+
+        gridLayout_3->addWidget(closeSerialButton, 1, 1, 1, 1);
 
 
         gridLayout_2->addLayout(gridLayout_3, 0, 0, 1, 1);
@@ -135,9 +159,11 @@ public:
     void retranslateUi(QMainWindow *QtGuiVisionPrjClass)
     {
         QtGuiVisionPrjClass->setWindowTitle(QApplication::translate("QtGuiVisionPrjClass", "QtGuiVisionPrj", Q_NULLPTR));
-        CamshotBtn->setText(QApplication::translate("QtGuiVisionPrjClass", "\346\210\252\345\233\276", Q_NULLPTR));
         OpenCamBtn->setText(QApplication::translate("QtGuiVisionPrjClass", "\346\211\223\345\274\200\346\221\204\345\203\217\345\244\264", Q_NULLPTR));
+        CamshotBtn->setText(QApplication::translate("QtGuiVisionPrjClass", "\346\210\252\345\233\276", Q_NULLPTR));
         CloseCamBtn->setText(QApplication::translate("QtGuiVisionPrjClass", "\345\205\263\351\227\255\346\221\204\345\203\217\345\244\264", Q_NULLPTR));
+        openSerialButton->setText(QApplication::translate("QtGuiVisionPrjClass", "\346\211\223\345\274\200\344\270\262\345\217\243", Q_NULLPTR));
+        closeSerialButton->setText(QApplication::translate("QtGuiVisionPrjClass", "\345\205\263\351\227\255\344\270\262\345\217\243", Q_NULLPTR));
         campicblack->setText(QApplication::translate("QtGuiVisionPrjClass", "TextLabel", Q_NULLPTR));
         campicwhite->setText(QApplication::translate("QtGuiVisionPrjClass", "TextLabel", Q_NULLPTR));
         campicwhiteshot->setText(QApplication::translate("QtGuiVisionPrjClass", "TextLabel", Q_NULLPTR));

@@ -22,21 +22,18 @@ QtGuiVisionPrj::QtGuiVisionPrj(QWidget *parent)
 	connect(ui.CloseCamBtn, SIGNAL(clicked()), this, SLOT(closeCamara()));
 	connect(ui.CamshotBtn, SIGNAL(clicked()), this, SLOT(camshot()));
 
-	QSerialPort *serial = new QSerialPort;
-	//设置串口名  
-	serial->setPortName("COM3");
-	//打开串口  
-	serial->open(QIODevice::ReadWrite);
-	//设置波特率  
-	serial->setBaudRate(9600);
-	//设置数据位数  
-	serial->setDataBits(QSerialPort::Data8);
-	//设置奇偶校验  
-	serial->setParity(QSerialPort::NoParity);
-	//设置停止位  
-	serial->setStopBits(QSerialPort::OneStop);
-	//设置流控制  
-	serial->setFlowControl(QSerialPort::NoFlowControl);
+	foreach(const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+	{
+		QSerialPort serial;
+		serial.setPort(info);
+		if (serial.open(QIODevice::ReadWrite))
+		{
+			ui.PortBox->addItem(serial.portName());
+			serial.close();
+		}
+	}
+	connect(ui.openSerialButton, SIGNAL(clicked()), this, SLOT(OpenSerial()));
+	connect(ui.closeSerialButton, SIGNAL(clicked()), this, SLOT(CloseSerial()));
 }
 void QtGuiVisionPrj::opencam()
 {
@@ -128,7 +125,43 @@ void QtGuiVisionPrj::camshot()
 
 	ui.campicblackshot->setPixmap(QPixmap::fromImage(*imgScaled));
 }
+void QtGuiVisionPrj::OpenSerial()
+{
+	serial = new QSerialPort;
+	//设置串口名  
+	serial->setPortName("COM3");
+	//打开串口  
+	serial->open(QIODevice::ReadWrite);
+	//设置波特率  
+	serial->setBaudRate(9600);
+	//设置数据位数  
+	serial->setDataBits(QSerialPort::Data8);
+	//设置奇偶校验  
+	serial->setParity(QSerialPort::NoParity);
+	//设置停止位  
+	serial->setStopBits(QSerialPort::OneStop);
+	//设置流控制  
+	serial->setFlowControl(QSerialPort::NoFlowControl);
+	connect(serial, &QSerialPort::readyRead, this, &QtGuiVisionPrj::Read_Data);
+}
+
+void QtGuiVisionPrj::	CloseSerial()
+{
+	serial->clear();
+	serial->close();
+	serial->deleteLater();
+}
+
 void QtGuiVisionPrj::Read_Data()
 {
-	QString str = ui.textEditin->toPlainText();
+	QByteArray buf;
+	buf = serial->readAll();
+	if (!buf.isEmpty())
+	{
+		QString str = ui.textEditin->toPlainText();
+		str += tr(buf);
+		ui.textEditin->clear();
+		ui.textEditin->append(str);
+	}
+	buf.clear();
 }

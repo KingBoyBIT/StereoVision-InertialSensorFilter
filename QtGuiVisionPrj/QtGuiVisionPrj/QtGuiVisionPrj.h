@@ -21,11 +21,16 @@ private:
 	Mat framewhite, frameblack;
 	QImage imagewhite, imageblack;
 	VideoCapture cap1, cap2;
+	QSerialPort *serial;
+
 	private slots:
 	void opencam();
 	void nextFrame();
 	void closeCamara();
 	void camshot();
 	void Read_Data();
+	void OpenSerial();
+	void CloseSerial();
+
 };
 static QImage Mat2QImage(Mat& image);

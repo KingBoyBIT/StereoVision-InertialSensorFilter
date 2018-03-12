@@ -1,12 +1,15 @@
 #include "QtGuiVisionPrj.h"
 #include <QMessageBox>
 #include <QTimer>
+#include <QTime>
+#include <qapplication.h>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/videoio.hpp> // for camera
 #include <opencv.hpp>
 #include <QtSerialPort/QSerialPort>  
 #include <QtSerialPort/QSerialPortInfo>  
+#include "cxcore.h"
 
 using namespace cv;
 
@@ -38,15 +41,24 @@ QtGuiVisionPrj::QtGuiVisionPrj(QWidget *parent)
 void QtGuiVisionPrj::opencam()
 {
 	if (cap1.isOpened())
+	{
 		cap1.release();
+	}
+		
 	if (cap2.isOpened())
+	{
 		cap2.release();
+	}
 	double rate = cap1.get(CV_CAP_PROP_FPS);
 	try
 	{
-		cap1.open(0);
-		//Sleep(50);
-		cap2.open(1);
+		cap1.open(1);
+		//cap1.set(CV_CAP_PROP_FRAME_WIDTH, 320);
+		//cap1.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
+		//delay(500);
+		cap2.open(0);
+		//cap2.set(CV_CAP_PROP_FRAME_WIDTH, 320);
+		//cap2.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
 		cap1 >> framewhite;
 		cap2 >> frameblack;
 
@@ -60,6 +72,14 @@ void QtGuiVisionPrj::opencam()
 	catch (const std::exception&)
 	{
 		QMessageBox::critical(NULL, "ERROR", "´ò¿ªÊ§°Ü", QMessageBox::Close);
+	}
+}
+static void delay(int mils)
+{
+	QTime reachtime = QTime::currentTime().addMSecs(mils);
+	while (QTime::currentTime()< reachtime)
+	{
+		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 	}
 }
 static QImage Mat2QImage(Mat& image)

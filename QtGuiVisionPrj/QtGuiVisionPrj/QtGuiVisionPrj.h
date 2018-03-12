@@ -22,7 +22,6 @@ private:
 	QImage imagewhite, imageblack;
 	VideoCapture cap1, cap2;
 	QSerialPort *serial;
-
 	private slots:
 	void opencam();
 	void nextFrame();
@@ -34,3 +33,4 @@ private:
 
 };
 static QImage Mat2QImage(Mat& image);
+static void delay(int mils);

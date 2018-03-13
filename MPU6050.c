@@ -1,4 +1,4 @@
-//****************************************
+//﻿***************************************
 // Update to MPU6050 by shinetop
 // MCU: STC89C52
 // 2012.3.1
@@ -380,6 +380,6 @@ void main()
 		sendbuff[len++] = 0x0d;
 		sendbuff[len++] = 0x0a;
 		SerilSendStr(sendbuff,len);
-		//delay(100);
+		delay(100);
 	}
 }

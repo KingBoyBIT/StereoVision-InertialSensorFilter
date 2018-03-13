@@ -35,6 +35,7 @@ QtGuiVisionPrj::QtGuiVisionPrj(QWidget *parent)
 			serial.close();
 		}
 	}
+	ui.PortBox->setCurrentIndex(1);
 	connect(ui.openSerialButton, SIGNAL(clicked()), this, SLOT(OpenSerial()));
 	connect(ui.closeSerialButton, SIGNAL(clicked()), this, SLOT(CloseSerial()));
 }
@@ -149,7 +150,7 @@ void QtGuiVisionPrj::OpenSerial()
 {
 	serial = new QSerialPort;
 	//设置串口名  
-	serial->setPortName("COM3");
+	serial->setPortName(ui.PortBox->currentText());
 	//打开串口  
 	serial->open(QIODevice::ReadWrite);
 	//设置波特率  
@@ -172,15 +173,84 @@ void QtGuiVisionPrj::	CloseSerial()
 	serial->deleteLater();
 }
 
+static uchar checkckv(QByteArray buff, uchar len)
+{
+	uchar ret = 0x5a;
+	uchar i = 0;
+	for (i = 0; i < len; i++) {
+		ret += buff[i] ^ ret;
+	}
+	return ret;
+}
+
 void QtGuiVisionPrj::Read_Data()
 {
+	int flag = 0;
+	int i = 0,startpt = 0;
+	int accx = 0, accy = 0, accz = 0, gyrox = 0, gyroy = 0, gyroz = 0;
 	QByteArray buf;
-	buf = serial->readAll();
-	if (!buf.isEmpty())
+	
+	try
 	{
-		QString str = ui.textEditin->toPlainText();
-		str += tr(buf);
-		ui.textEditin->clear();
+		buf = serial->readAll();
+		if (!buf.isEmpty())
+		{
+			i = 0;
+			while (buf[i++] != '$')
+			{
+				;
+			}
+			startpt = i--;
+			QByteArray data;
+			for (i = 0; i < 30; i++)
+			{
+				data.append(buf[i]);
+			}
+			if ((uchar)data[27] == checkckv(data, 28))
+			{
+				int ct = 3;
+				flag = 1;
+				accx |= data[ct++];
+				accx = (accx << 8);
+				accx |= data[ct++];
+				accx = (accx << 8);
+				accx |= data[ct++];
+				accx = (accx << 8);
+				accx |= data[ct++];
+				accy |= data[ct++];
+				accy = (accy << 8);
+				accy |= data[ct++];
+				accy = (accy << 8);
+				accy |= data[ct++];
+				accy = (accy << 8);
+				accy |= data[ct++];
+				accz |= data[ct++];
+				accz = (accz << 8);
+				accz |= data[ct++];
+				accz = (accz << 8);
+				accz |= data[ct++];
+				accz = (accz << 8);
+				accz |= data[ct++];
+			}
+		}
+	}
+	catch (const std::exception&)
+	{
+		flag = 0;
+	}
+	
+	if (flag)
+	{
+		QString str = "";
+		//QString str = ui.textEditin->toPlainText();
+		str += "accx:";
+		str += QString::number(accx);
+		str += "accy:";
+		str += QString::number(accy);
+		str += "accz:";
+		str += QString::number(accz);
+		
+		//ui.textEditin->clear();
 		ui.textEditin->append(str);
 	}
 	buf.clear();

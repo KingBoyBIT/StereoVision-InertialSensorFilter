@@ -34,3 +34,4 @@ private:
 };
 static QImage Mat2QImage(Mat& image);
 static void delay(int mils);
+static uchar checkckv(QByteArray buff, uchar len);

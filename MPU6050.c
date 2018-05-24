@@ -255,9 +255,9 @@ void InitMPU6050()
 {
 	Single_WriteI2C(PWR_MGMT_1, 0x00);	//解除休眠状态
 	Single_WriteI2C(SMPLRT_DIV, 0x07);
-	Single_WriteI2C(CONFIG, 0x06);
-	Single_WriteI2C(GYRO_CONFIG, 0x18);
-	Single_WriteI2C(ACCEL_CONFIG, 0x01);
+	Single_WriteI2C(CONFIG, 0x04);
+	Single_WriteI2C(GYRO_CONFIG, 0x08);
+	Single_WriteI2C(ACCEL_CONFIG, 0x18);
 }
 //**************************************
 //合成数据

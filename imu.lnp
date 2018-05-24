@@ -1,3 +1,4 @@
 "STARTUP.obj",
 "MPU6050.obj" 
 TO "imu" 
+RAMSIZE(256) 

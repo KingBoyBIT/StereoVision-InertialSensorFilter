@@ -27,11 +27,13 @@ while(count>0)
 		ch = fread(sport,1,'uchar');% 接收帧头1字节
 		if ch == 36%'$'
 			cmd = [cmd;ch];
-			ch = fread(sport,18,'uchar');% 接收18个字节，无校验
+			ch = fread(sport,29,'uchar');% 接收18个字节，无校验
 			if ch(1) == 85&&ch(2) == 170
 				cmd = [cmd;ch];
 				break;
 			end
+		else
+			cmd = [];
 		end
 	end
 	%解析帧
@@ -61,22 +63,22 @@ for i = 1:1000
 end
 figure
 subplot(3,2,1)
-plot(accx);
+plot(accx/(2^16-1)*16*9.8*2);
 title('accx')
 subplot(3,2,2)
-plot(gyrox);
+plot(gyrox/(2^16-1)*500*pi/180);
 title('gyrox')
 subplot(3,2,3)
-plot(accy);
+plot(accy/(2^16-1)*16*9.8*2);
 title('accy')
 subplot(3,2,4)
-plot(gyroy);
+plot(gyroy/(2^16-1)*500*pi/180);
 title('gyroy')
 subplot(3,2,5)
-plot(accz);
+plot(accz/(2^16-1)*16*9.8*2);
 title('accz')
 subplot(3,2,6)
-plot(gyroz);
+plot(gyroz/(2^16-1)*500*pi/180);
 title('gyroz')
 
 
@@ -90,16 +92,30 @@ else
 end
 
 end
+function [outputs] = uint2int(a)
 
+if a>2^31
+	b = -(bitxor(a,hex2dec('ffffffff'))+1);
+	outputs = b;
+else
+	outputs = a;
+end
+
+end
 function out = framedec(indata)
 sp = 1;
 off = 3;% 数据段起始偏移量
-
-out.accx = ushort2short(indata(sp+off+1)*256+indata(sp+off));off = off + 2;
-out.accy = ushort2short(indata(sp+off+1)*256+indata(sp+off));off = off + 2;
-out.accz = ushort2short(indata(sp+off+1)*256+indata(sp+off));off = off + 2;
-out.temp = ushort2short(indata(sp+off+1)*256+indata(sp+off));off = off + 2;
-out.gyrox = ushort2short(indata(sp+off+1)*256+indata(sp+off));off = off + 2;
-out.gyroy = ushort2short(indata(sp+off+1)*256+indata(sp+off));off = off + 2;
-out.gyroz = ushort2short(indata(sp+off+1)*256+indata(sp+off));off = off + 2;
+out.accx = uint2int(indata(sp+off+3)*(2^24)+indata(sp+off+2)*(2^16)+indata(sp+off+1)*256+indata(sp+off));off = off + 4;
+out.accy = uint2int(indata(sp+off+3)*(2^24)+indata(sp+off+2)*(2^16)+indata(sp+off+1)*256+indata(sp+off));off = off + 4;
+out.accz = uint2int(indata(sp+off+3)*(2^24)+indata(sp+off+2)*(2^16)+indata(sp+off+1)*256+indata(sp+off));off = off + 4;
+out.gyrox = uint2int(indata(sp+off+3)*(2^24)+indata(sp+off+2)*(2^16)+indata(sp+off+1)*256+indata(sp+off));off = off + 4;
+out.gyroy = uint2int(indata(sp+off+3)*(2^24)+indata(sp+off+2)*(2^16)+indata(sp+off+1)*256+indata(sp+off));off = off + 4;
+out.gyroz = uint2int(indata(sp+off+3)*(2^24)+indata(sp+off+2)*(2^16)+indata(sp+off+1)*256+indata(sp+off));off = off + 4;
+% out.accx = ushort2short(indata(sp+off)*256+indata(sp+off+1));off = off + 2;
+% out.accy = ushort2short(indata(sp+off)*256+indata(sp+off+1));off = off + 2;
+% out.accz = ushort2short(indata(sp+off)*256+indata(sp+off+1));off = off + 2;
+% % out.temp = ushort2short(indata(sp+off)*256+indata(sp+off+1));off = off + 2;
+% out.gyrox = ushort2short(indata(sp+off)*256+indata(sp+off+1));off = off + 2;
+% out.gyroy = ushort2short(indata(sp+off)*256+indata(sp+off+1));off = off + 2;
+% out.gyroz = ushort2short(indata(sp+off)*256+indata(sp+off+1));off = off + 2;
 end

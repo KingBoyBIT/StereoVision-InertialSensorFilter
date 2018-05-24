@@ -375,9 +375,9 @@ void main()
 		sendbuff[len++] = '$';
 		sendbuff[len++] = 0x55;
 		sendbuff[len++] = 0xaa;
-		for(i = 0;i<14;i++)
-			sendbuff[len++] = tp[i];
-		/*
+		//for(i = 0;i<14;i++)
+		//	sendbuff[len++] = tp[i];
+		
 		tempdata = GetData(ACCEL_XOUT_H);
 		sendbuff[len++] = tempdata&0xff;
 		sendbuff[len++] = (tempdata>>8)&0xff;
@@ -410,7 +410,7 @@ void main()
 		sendbuff[len++] = (tempdata>>24)&0xff;
 		ckvlen = len;
 		sendbuff[len++] = checkckv(sendbuff,ckvlen);
-		*/
+		
 		sendbuff[len++] = 0x0d;
 		sendbuff[len++] = 0x0a;
 		SerilSendStr(sendbuff,len);

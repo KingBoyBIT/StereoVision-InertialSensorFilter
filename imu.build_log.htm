@@ -25,14 +25,20 @@ Project File Date:  05/24/2018
 Rebuild target 'Target 1'
 assembling STARTUP.A51...
 compiling MPU6050.c...
-MPU6050.c(275): warning C280: 'x': unreferenced local variable
-MPU6050.c(275): warning C280: 'y': unreferenced local variable
+MPU6050.c(297): warning C280: 'x': unreferenced local variable
+MPU6050.c(297): warning C280: 'y': unreferenced local variable
+MPU6050.c(358): warning C280: 'ckvlen': unreferenced local variable
+MPU6050.c(359): warning C280: 'tempdata': unreferenced local variable
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GETDATA?MPU6050
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DISPLAY10BITDATA?MPU6050
-Program Size: data=9.1 xdata=223 code=2018
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_CHECKCKV?MPU6050
+Program Size: data=9.1 xdata=242 code=1387
 creating hex file from "imu"...
-"imu" - 0 Error(s), 3 Warning(s).
+"imu" - 0 Error(s), 7 Warning(s).
 </pre>
 </body>
 </html>

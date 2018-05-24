@@ -26,6 +26,10 @@ typedef unsigned int   uint;
 #define DataPort P0		//LCD1602数据端口
 sbit    SCL=P0^0;			//IIC时钟引脚定义
 sbit    SDA=P0^1;			//IIC数据引脚定义
+sbit	XDA=P0^2;
+sbit	XCL=P0^3;
+sbit	AD0=P0^4;
+sbit	INT=P0^5;
 sbit    LCM_RS=P2^0;		//LCD1602命令端口
 sbit    LCM_RW=P2^1;		//LCD1602命令端口
 sbit    LCM_EN=P2^2;		//LCD1602命令端口
@@ -59,28 +63,7 @@ sbit    LCM_EN=P2^2;		//LCD1602命令端口
 uchar dis[6];							//显示数字(-511至512)的字符数组
 int	dis_data;						//变量
 //int	Temperature,Temp_h,Temp_l;	//温度及高低位数据
-//****************************************
-//函数声明
-//****************************************
-void  delay(unsigned int k);										//延时
-void  lcd_printf(uchar *s,int temp_data);
 
-//MPU6050操作函数
-void  InitMPU6050();													//初始化MPU6050
-void  Delay5us();
-void  I2C_Start();
-void  I2C_Stop();
-void  I2C_SendACK(bit ack);
-bit   I2C_RecvACK();
-void  I2C_SendByte(uchar dat);
-uchar I2C_RecvByte();
-void  I2C_ReadPage();
-void  I2C_WritePage();
-void  display_ACCEL_x();
-void  display_ACCEL_y();
-void  display_ACCEL_z();
-uchar Single_ReadI2C(uchar REG_Address);						//读取I2C数据
-void  Single_WriteI2C(uchar REG_Address,uchar REG_data);	//向I2C写入数据
 //****************************************
 //整数转字符串
 //****************************************
@@ -269,6 +252,45 @@ int GetData(uchar REG_Address)
 	L=Single_ReadI2C(REG_Address+1);
 	return (H<<8)+L;   //合成数据
 }
+void Delay2us(void)
+{
+	unsigned char i;
+	i = 2;
+	while (--i);
+}
+/**
+ * 直接从6050读取数据
+ *
+ * @author KingBoy (2018/5/20)
+ *
+ * @param buf
+ */
+void Read_MPU6050(unsigned char *buf)
+{
+	unsigned char i;
+
+	I2C_Start();                  //起始信号
+	I2C_SendByte(SlaveAddress);   //发送设备地址+写信号
+	I2C_SendByte(ACCEL_XOUT_H);    //内部寄存器地址，
+	I2C_Start();                   //起始信号
+	I2C_SendByte(SlaveAddress + 1);  //发送设备地址+读信号
+	for (i = 0; i < 13; i++)
+	{
+		buf[i] = I2C_RecvByte();    //读出寄存器数据
+		SDA = 0;                    //写应答信号
+		SCL = 1;                    //拉高时钟线
+		Delay2us();
+		SCL = 0;                    //拉低时钟线
+		Delay2us();
+	}
+	buf[i] = I2C_RecvByte();    //最后一个字节
+	SDA = 1;                    //写非应答信号
+	SCL = 1;                    //拉高时钟线
+	Delay2us();
+	SCL = 0;                    //拉低时钟线
+	Delay2us();
+	I2C_Stop();                    //停止信号
+}
 //**************************************
 //在1602上显示10位数据
 //**************************************
@@ -326,6 +348,7 @@ uchar checkckv(uchar* buff,uchar len)
 	return ret;
 }
 
+unsigned char tp[16];
 //*********************************************************
 //主程序
 //*********************************************************
@@ -333,18 +356,28 @@ void main()
 {
 	uchar sendbuff[200];
 	uchar len,ckvlen;
-	int tempdata;
-	delay(500);		//上电延时
+	int tempdata,i;
+	delay(5000);		//上电延时
 //	InitLcd();		//液晶初始化
 	init_uart();
+	delay(5000);		//上电延时
 	InitMPU6050();	//初始化MPU6050
-	delay(150);
+	while(Single_ReadI2C(WHO_AM_I)!=0x68);
+	delay(1500);
+	AD0 = 0;
+	XDA = 0;
+	XCL = 0;
+	INT = 0;
 	while(1)
 	{
+		Read_MPU6050(tp);
 		len = 0;
 		sendbuff[len++] = '$';
 		sendbuff[len++] = 0x55;
 		sendbuff[len++] = 0xaa;
+		for(i = 0;i<14;i++)
+			sendbuff[len++] = tp[i];
+		/*
 		tempdata = GetData(ACCEL_XOUT_H);
 		sendbuff[len++] = tempdata&0xff;
 		sendbuff[len++] = (tempdata>>8)&0xff;
@@ -377,6 +410,7 @@ void main()
 		sendbuff[len++] = (tempdata>>24)&0xff;
 		ckvlen = len;
 		sendbuff[len++] = checkckv(sendbuff,ckvlen);
+		*/
 		sendbuff[len++] = 0x0d;
 		sendbuff[len++] = 0x0a;
 		SerilSendStr(sendbuff,len);

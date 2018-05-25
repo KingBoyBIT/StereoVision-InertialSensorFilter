@@ -1,6 +1,8 @@
 clearvars -except s
 clc,close all
-fclose(instrfind)% 关闭正在占用的串口
+if isempty(instrfind)~=1
+	fclose(instrfind)% 关闭正在占用的串口
+end
 
 baudrate = 9600;
 portnames = seriallist;

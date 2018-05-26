@@ -23,7 +23,7 @@ cmd = [];
 % for i = 1:1
 data = [];
 count = 1000;
-while(count>0)
+while(1)
 	cmd = [];
 	while(1)
 		ch = fread(sport,1,'uchar');% 接收帧头1字节
@@ -39,10 +39,12 @@ while(count>0)
 		end
 	end
 	%解析帧
-	out = framedec(cmd);
-	data = [data;out];
-	count = count - 1;
-	disp(count)
+	data = framedec(cmd);
+	acc = [data.accx;data.accy;data.accz];
+	gyro = [data.gyrox;data.gyroy;data.gyroz];
+	%data = [data;out];
+	%count = count - 1;
+	%disp(count)
 end
 %% CLOSE
 fclose(sport);%关闭串口

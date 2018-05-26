@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MPU6050                                                               05/25/2018 00:02:45 PAGE 1   
+C51 COMPILER V9.54   MPU6050                                                               05/26/2018 19:56:32 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MPU6050
@@ -62,7 +62,7 @@ line level    source
   52          #define GYRO_XOUT_L             0x44
   53          #define GYRO_YOUT_H             0x45
   54          #define GYRO_YOUT_L             0x46
-C51 COMPILER V9.54   MPU6050                                                               05/25/2018 00:02:45 PAGE 2   
+C51 COMPILER V9.54   MPU6050                                                               05/26/2018 19:56:32 PAGE 2   
 
   55          #define GYRO_ZOUT_H             0x47
   56          #define GYRO_ZOUT_L             0x48
@@ -126,7 +126,7 @@ line level    source
  114          //**************************************
  115          void Delay5us()
  116          {
-C51 COMPILER V9.54   MPU6050                                                               05/25/2018 00:02:45 PAGE 3   
+C51 COMPILER V9.54   MPU6050                                                               05/26/2018 19:56:32 PAGE 3   
 
  117   1              _nop_();_nop_();_nop_();_nop_();
  118   1              _nop_();_nop_();_nop_();_nop_();
@@ -190,7 +190,7 @@ line level    source
  176   1          uchar i;
  177   1          for (i=0; i<8; i++)         //8位计数器
  178   1          {
-C51 COMPILER V9.54   MPU6050                                                               05/25/2018 00:02:45 PAGE 4   
+C51 COMPILER V9.54   MPU6050                                                               05/26/2018 19:56:32 PAGE 4   
 
  179   2              dat <<= 1;              //移出数据的最高位
  180   2              SDA = CY;               //送数据口
@@ -253,12 +253,13 @@ line level    source
  237          void InitMPU6050()
  238          {
  239   1              Single_WriteI2C(PWR_MGMT_1, 0x00);      //解除休眠状态
- 240   1              Single_WriteI2C(SMPLRT_DIV, 0x07);
-C51 COMPILER V9.54   MPU6050                                                               05/25/2018 00:02:45 PAGE 5   
+ 240   1              Single_WriteI2C(SMPLRT_DIV, 0x13);      //采样率，我们假定设置为 50Hz，那么SMPLRT_DIV=1000/50-1=
+C51 COMPILER V9.54   MPU6050                                                               05/26/2018 19:56:32 PAGE 5   
 
- 241   1              Single_WriteI2C(CONFIG, 0x04);
- 242   1              Single_WriteI2C(GYRO_CONFIG, 0x08);
- 243   1              Single_WriteI2C(ACCEL_CONFIG, 0x18);
+             -19
+ 241   1              Single_WriteI2C(CONFIG, 0x04);          //低通滤波器为采样率一半
+ 242   1              Single_WriteI2C(GYRO_CONFIG, 0x18);//±2000° /S
+ 243   1              Single_WriteI2C(ACCEL_CONFIG, 0x18);//±16g
  244   1      }
  245          //**************************************
  246          //合成数据
@@ -317,9 +318,9 @@ line level    source
  299   1      //      value/=64;                                                      //转换为10位数据
  300   1              lcd_printf(dis, value);                 //转换数据显示
  301   1              for(i=0;i<6;i++)
- 302   1              {
-C51 COMPILER V9.54   MPU6050                                                               05/25/2018 00:02:45 PAGE 6   
+C51 COMPILER V9.54   MPU6050                                                               05/26/2018 19:56:32 PAGE 6   
 
+ 302   1              {
  303   2              SeriPushSend(dis[i]);
  304   2          }
  305   1      
@@ -379,15 +380,15 @@ line level    source
  357   1              uchar sendbuff[200];
  358   1              uchar len,ckvlen;
  359   1              int tempdata,i;
- 360   1              delay(5000);            //上电延时
+ 360   1              delay(500);             //上电延时
  361   1      //      InitLcd();              //液晶初始化
- 362   1              init_uart();
-C51 COMPILER V9.54   MPU6050                                                               05/25/2018 00:02:45 PAGE 7   
+C51 COMPILER V9.54   MPU6050                                                               05/26/2018 19:56:32 PAGE 7   
 
- 363   1              delay(5000);            //上电延时
+ 362   1              init_uart();
+ 363   1              delay(500);             //上电延时
  364   1              InitMPU6050();  //初始化MPU6050
  365   1              while(Single_ReadI2C(WHO_AM_I)!=0x68);
- 366   1              delay(1500);
+ 366   1              delay(150);
  367   1              AD0 = 0;
  368   1              XDA = 0;
  369   1              XCL = 0;
@@ -438,18 +439,18 @@ line level    source
  414   2                      sendbuff[len++] = 0x0d;
  415   2                      sendbuff[len++] = 0x0a;
  416   2                      SerilSendStr(sendbuff,len);
- 417   2                      delay(100);
+ 417   2                      //delay(100);
  418   2              }
  419   1      }
 *** WARNING C280 IN LINE 359 OF MPU6050.c: 'i': unreferenced local variable
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1909    ----
-C51 COMPILER V9.54   MPU6050                                                               05/25/2018 00:02:45 PAGE 8   
+C51 COMPILER V9.54   MPU6050                                                               05/26/2018 19:56:32 PAGE 8   
 
+   CODE SIZE        =   1898    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     24     223
+   XDATA SIZE       =     24     222
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

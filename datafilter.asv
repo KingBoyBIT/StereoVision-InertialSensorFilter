@@ -44,7 +44,7 @@ title('gyroz')
 
 %% 互补滤波处理
 % 加速度计低通滤波
-beta = 0.001;
+beta = 0.1;
 for i = 1:length(accx)
 	if i >1
 		accx(i) = accx(i-1)*(1-beta)+beta*accx(i);
@@ -88,7 +88,7 @@ for i = 1:length(gyrox)
 	end
 end
 
-alpha = 0.8;
+alpha = 0.9;
 x_est = xg.*alpha+(1-alpha).*xa';
 y_est = yg.*alpha+(1-alpha).*ya';
 figure

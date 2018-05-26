@@ -237,10 +237,10 @@ uchar Single_ReadI2C(uchar REG_Address)
 void InitMPU6050()
 {
 	Single_WriteI2C(PWR_MGMT_1, 0x00);	//解除休眠状态
-	Single_WriteI2C(SMPLRT_DIV, 0x07);
-	Single_WriteI2C(CONFIG, 0x04);
-	Single_WriteI2C(GYRO_CONFIG, 0x08);
-	Single_WriteI2C(ACCEL_CONFIG, 0x18);
+	Single_WriteI2C(SMPLRT_DIV, 0x13);	//采样率，我们假定设置为 50Hz，那么SMPLRT_DIV=1000/50-1=19
+	Single_WriteI2C(CONFIG, 0x04);		//低通滤波器为采样率一半
+	Single_WriteI2C(GYRO_CONFIG, 0x18);//±2000° /S
+	Single_WriteI2C(ACCEL_CONFIG, 0x18);//±16g
 }
 //**************************************
 //合成数据
@@ -357,13 +357,13 @@ void main()
 	uchar sendbuff[200];
 	uchar len,ckvlen;
 	int tempdata,i;
-	delay(5000);		//上电延时
+	delay(500);		//上电延时
 //	InitLcd();		//液晶初始化
 	init_uart();
-	delay(5000);		//上电延时
+	delay(500);		//上电延时
 	InitMPU6050();	//初始化MPU6050
 	while(Single_ReadI2C(WHO_AM_I)!=0x68);
-	delay(1500);
+	delay(150);
 	AD0 = 0;
 	XDA = 0;
 	XCL = 0;
@@ -414,6 +414,6 @@ void main()
 		sendbuff[len++] = 0x0d;
 		sendbuff[len++] = 0x0a;
 		SerilSendStr(sendbuff,len);
-		delay(100);
+		//delay(100);
 	}
 }

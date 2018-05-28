@@ -158,10 +158,34 @@ while(1)
 		x_est_plotbuff = [x_est_plotbuff,x_est];
 		y_est_plotbuff = [y_est_plotbuff,y_est];
 	end
-	subplot(2,2,[3 4])
+	subplot(2,2,3)
 	axis manual
 	plot(1:length(x_est_plotbuff),x_est_plotbuff/pi*180,'r',...
 		1:length(x_est_plotbuff),y_est_plotbuff/pi*180,'b');
+	dcm = angle2dcm( x_est, y_est, 0 );
+	%c初始化正方形的三个坐标点
+    xd=[5 5 -5 -5]; 
+    yd=[-5 5 5 -5];
+    zd=[0 0 0 0];
+    for i = 1:4
+		v = [xd(i);yd(i);zd(i)];
+		v = dcm*v;
+		xd(i) = v(1);
+		yd(i) = v(2);
+		zd(i) = v(3);
+	end
+%     %坐标变换
+%     temp = [xd(1,1) yd(1,1) zd(1,1);
+%             xd(1,2) yd(1,2) zd(1,2);
+%             xd(2,2) yd(2,2) zd(2,2)];
+%     temp = temp*q;
+%     xd = [temp(1:2,1)';temp(1,1),temp(3,1)];
+%     yd = [temp(1:2,2)';temp(1,2),temp(3,2)];
+%     zd = [temp(1:2,3)';temp(1,3),temp(3,3)];
+	subplot(2,2,4)
+	fill3(xd,yd,zd,'b');
+	view(3);
+	axis equal
 	drawnow limitrate
 % 	xg_before = xg;
 % 	yg_before = yg;

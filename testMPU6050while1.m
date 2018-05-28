@@ -28,6 +28,7 @@ gyrobuff = [];
 gyrostatic = [];
 beta = 0.95;
 acc_before = 0;
+gyro_before = 0;
 xg_before = 0;
 yg_before = 0;
 figure(1)
@@ -79,21 +80,23 @@ while(1)
 	acc = floor(acc/4)*4;
 	acc_now = floor(acc/4)*4;
 	acc_now = acc_now/(2^16-1)*16*9.8*2;
-	if size(gyrobuff,2)<10
+	if size(gyrobuff,2)<4
 		gyrobuff = [gyrobuff,gyro];
 	else
 		gyrobuff = gyrobuff(:,2:end);
 		gyrobuff = [gyrobuff,gyro];
 	end
-	gyro_now = mean(gyro,2);
+	gyro_now = mean(gyrobuff,2);
 	if count<200
 		gyrostatic = [gyrostatic,gyro_now];
 		count = count + 1;
 	end
 	gyro_now = gyro_now - mean(gyrostatic,2);
-	gyro_now = gyro_now/(2^16-1)*2000*pi/180*2;
+	gyro_now = gyro_now/(2^16-1)*2000*pi/180;
 	% 加速度一阶惯性滤波
 	acc_now = acc_before*(1-beta)+beta*acc_now;
+	gyro_now = gyro_before*(1-beta)+beta*gyro_now;
+	acc_now = acc_now./sqrt(acc_now'*acc_now);
 	if size(acc_plotbuff,2)<50
 		acc_plotbuff = [acc_plotbuff,acc_now];
 		gyro_plotbuff = [gyro_plotbuff,gyro_now];
@@ -108,16 +111,16 @@ while(1)
 	ylim([-1 10])
 	axis([0 size(acc_plotbuff,2) -10 10])
 	axis manual
-	plot(1:size(acc_plotbuff,2),acc_plotbuff(1,:),...
-		1:size(acc_plotbuff,2),acc_plotbuff(2,:),...
-		1:size(acc_plotbuff,2),acc_plotbuff(3,:));
+	plot(1:size(acc_plotbuff,2),acc_plotbuff(1,:),'r',...
+		1:size(acc_plotbuff,2),acc_plotbuff(2,:),'g',...
+		1:size(acc_plotbuff,2),acc_plotbuff(3,:),'b');
 	subplot(2,2,2)
 	ylim([-5 5])
 	axis([0 size(gyro_plotbuff,2) -5 5])
 	axis manual
-	plot(1:size(gyro_plotbuff,2),gyro_plotbuff(1,:),...
-		1:size(gyro_plotbuff,2),gyro_plotbuff(2,:),...
-		1:size(gyro_plotbuff,2),gyro_plotbuff(3,:));
+	plot(1:size(gyro_plotbuff,2),gyro_plotbuff(1,:),'r',...
+		1:size(gyro_plotbuff,2),gyro_plotbuff(2,:),'g',...
+		1:size(gyro_plotbuff,2),gyro_plotbuff(3,:),'b');
 	
 	% 互补滤波
 	xa = atan(acc_now(2)./acc_now(3));
@@ -130,7 +133,7 @@ while(1)
 		xg = xg_before+dw(1)*dt;
 		yg = yg_before+dw(2)*dt;
 	end
-	alpha = 0.5;
+	alpha = 0.1;
 	x_est = xg.*alpha+(1-alpha).*xa;
 	y_est = yg.*alpha+(1-alpha).*ya;
 	if size(acc_plotbuff,2)<50
@@ -144,12 +147,13 @@ while(1)
 	end
 	subplot(2,2,[3 4])
 	axis manual
-	plot(1:length(x_est_plotbuff),x_est_plotbuff/pi*180,...
-		1:length(x_est_plotbuff),y_est_plotbuff/pi*180);
+	plot(1:length(x_est_plotbuff),x_est_plotbuff/pi*180,'r',...
+		1:length(x_est_plotbuff),y_est_plotbuff/pi*180,'b');
 	drawnow limitrate
 	xg_before = xg;
 	yg_before = yg;
 	acc_before = acc_now;
+	gyro_before = gyro_now;
 end
 %% CLOSE
 fclose(sport);%关闭串口
@@ -192,7 +196,10 @@ out.gyroz = uint2int(indata(sp+off+3)*(2^24)+indata(sp+off+2)*(2^16)+indata(sp+o
 % out.gyroz = ushort2short(indata(sp+off)*256+indata(sp+off+1));off = off + 2;
 end
 function out = Omega(x,y)
+% out = [1 tan(y)*sin(x) tan(y)*cos(x);
+% 	0 cos(x) -sin(x);
+% 	0 sin(x)/cos(y) cos(x)/cos(y)];
 out = [1 tan(y)*sin(x) tan(y)*cos(x);
 	0 cos(x) -sin(x);
-	0 sin(x)/cos(y) cos(x)/cos(y)];
+	0 sin(x)/cos(y) cos(x)];
 end

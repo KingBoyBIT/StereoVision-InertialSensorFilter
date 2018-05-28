@@ -134,21 +134,18 @@ while(1)
 % 		yg = ya(1);
 		x_est = xa(1);
 		y_est = ya(1);
-		dw = zeros(3,1);
 	else
 		dw = Omega(gyro_now(1),gyro_now(2))*gyro_now;
 % 		xg = rem(xg_before+dw(1)*dt,2*pi);
 % 		yg = rem(yg_before+dw(2)*dt,2*pi);
 %  		xg = (xg_before+dw(1)*dt);
-% 		yg = (yg_before+dw(2)*dt);
-				
+		yg = (yg_before+dw(2)*dt);
+		
 	end
 	
-	alpha = 0.8 ;
-% 	x_est = xg.*alpha+(1-alpha).*xa;
-% 	y_est = yg.*alpha+(1-alpha).*ya;
-	x_est = (x_est + dw(1)*dt).*alpha+(1-alpha).*xa;
-	y_est = (y_est + dw(2)*dt).*alpha+(1-alpha).*ya;
+	alpha = 0.3 ;
+	x_est = xg.*alpha+(1-alpha).*xa;
+	y_est = yg.*alpha+(1-alpha).*ya;
 	if size(acc_plotbuff,2)<50
 		x_est_plotbuff = [x_est_plotbuff,x_est];
 		y_est_plotbuff = [y_est_plotbuff,y_est];
@@ -163,8 +160,8 @@ while(1)
 	plot(1:length(x_est_plotbuff),x_est_plotbuff/pi*180,'r',...
 		1:length(x_est_plotbuff),y_est_plotbuff/pi*180,'b');
 	drawnow limitrate
-% 	xg_before = xg;
-% 	yg_before = yg;
+	xg_before = xg;
+	yg_before = yg;
 	acc_before = acc_now;
 	gyro_before = gyro_now;
 end

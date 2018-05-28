@@ -185,8 +185,9 @@ while(1)
 	subplot(2,2,4)
 	fill3(xd,yd,zd,'b');
 	view(3);
-	axis equal
+% 	axis equal
 	drawnow limitrate
+% 	pause(0.001);
 % 	xg_before = xg;
 % 	yg_before = yg;
 	acc_before = acc_now;

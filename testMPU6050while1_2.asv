@@ -89,7 +89,20 @@ while(1)
 		1:size(gyro_plotbuff,2),gyro_plotbuff(3,:),'b');
 	
 	% »¥²¹ÂË²¨
-	[x_est,y_est] = hubulvbo(acc_now,gyro_now);
+	xa = atan(acc_now(2)./acc_now(3));
+	ya = -asin(acc_now(1));
+	if count == 1
+		x_est = xa(1);
+		y_est = ya(1);
+		dw = zeros(3,1);
+	else
+		dw = Omega(gyro_now(1),gyro_now(2))*gyro_now;
+	end
+	
+	alpha = 0.8 ;
+
+	x_est = (x_est + dw(1)*dt).*alpha+(1-alpha).*xa;
+	y_est = (y_est + dw(2)*dt).*alpha+(1-alpha).*ya;
 	if size(acc_plotbuff,2)<50
 		x_est_plotbuff = [x_est_plotbuff,x_est];
 		y_est_plotbuff = [y_est_plotbuff,y_est];
@@ -104,8 +117,6 @@ while(1)
 	plot(1:length(x_est_plotbuff),x_est_plotbuff/pi*180,'r',...
 		1:length(x_est_plotbuff),y_est_plotbuff/pi*180,'b');
 	dcm = angle2dcm( x_est, y_est, 0 );
-	% ¿¨¶ûÂüÂË²¨£¿
-	
 	
 	drawnow limitrate
 
@@ -116,22 +127,8 @@ end
 fclose(sport);%¹Ø±Õ´®¿Ú
 fclose(instrfind);
 
-function [x_est,y_est] = hubulvbo(acc_now,gyro_now)
-global count
-xa = atan(acc_now(2)./acc_now(3));
-ya = -asin(acc_now(1));
-if count == 1
-	x_est = xa(1);
-	y_est = ya(1);
-	dw = zeros(3,1);
-else
-	dw = Omega(gyro_now(1),gyro_now(2))*gyro_now;
-end
+function out = yijieguanxing()
 
-alpha = 0.8 ;
-
-x_est = (x_est + dw(1)*dt).*alpha+(1-alpha).*xa;
-y_est = (y_est + dw(2)*dt).*alpha+(1-alpha).*ya;
 end
 
 function [acc_now,gyro_now] = data_process1(data)

@@ -4,7 +4,7 @@ if isempty(instrfind)~=1
 	fclose(instrfind)% 关闭正在占用的串口
 end
 
-global gyrobuff gyrostatic count
+global gyrobuff gyrostatic count dt  x_est y_est
 
 baudrate = 9600;
 portnames = seriallist;
@@ -23,7 +23,7 @@ cmd = [];
 
 % 接收200条
 % for i = 1:1
-dt = 0.03;
+dt = 0.01;
 data = [];
 count = 0;
 gyrobuff = [];
@@ -39,8 +39,14 @@ acc_plotbuff =[];
 gyro_plotbuff = [];
 x_est_plotbuff = [];
 y_est_plotbuff = [];
-
-
+r1_plotbuff =[];
+r2_plotbuff =[];
+q0 = -1;
+q1 = 0;
+q2 = 0;
+q3 = 0;
+eInt = zeros(3,1);
+last_e = zeros(3,1);
 while(1)
 	cmd = [];
 	while(1)
@@ -89,7 +95,7 @@ while(1)
 		1:size(gyro_plotbuff,2),gyro_plotbuff(3,:),'b');
 	
 	% 互补滤波
-	[x_est,y_est] = hubulvbo(acc_now,gyro_now);
+	hubulvbo(acc_now,gyro_now);
 	if size(acc_plotbuff,2)<50
 		x_est_plotbuff = [x_est_plotbuff,x_est];
 		y_est_plotbuff = [y_est_plotbuff,y_est];
@@ -104,8 +110,54 @@ while(1)
 	plot(1:length(x_est_plotbuff),x_est_plotbuff/pi*180,'r',...
 		1:length(x_est_plotbuff),y_est_plotbuff/pi*180,'b');
 	dcm = angle2dcm( x_est, y_est, 0 );
-	% 卡尔曼滤波？
+	% AHRS方法
 	
+	vx = 2 * (q1 * q3 - q0 * q2);
+	vy = 2 * (q0 * q1 + q2 * q3);
+	vz = q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3;
+	ax = acc_now(1);
+	ay = acc_now(2);
+	az = acc_now(3);
+	ex = (ay * vz - az * vy);
+	ey = (az * vx - ax * vz);
+	ez = (ax * vy - ay * vx);
+	Kp = 2.000;
+	Ki = 0.001;
+	Kd = 0.001;
+	eInt = eInt + [ex;ey;ez]*Ki;
+	eDif = [ex;ey;ez] - last_e;
+	
+	last_e = [ex;ey;ez];
+	gx = gyro_now(1);
+	gy = gyro_now(2);
+	gz = gyro_now(3);
+	gx = gx + Kp * ex + eInt(1) + Kd * eDif(1);
+	gy = gy + Kp * ey + eInt(2) + Kd * eDif(2);
+	gz = gz + Kp * ez + eInt(3) + Kd * eDif(3);
+	halfT = 0.005;
+	q0 = q0 + (-q1 * gx - q2 * gy - q3 * gz) * halfT;
+	q1 = q1 + (q0 * gx + q2 * gz - q3 * gy) * halfT;
+	q2 = q2 + (q0 * gy - q1 * gz + q3 * gx) * halfT;
+	q3 = q3 + (q0 * gz + q1 * gy - q2 * gx) * halfT; 
+	[r1,r2,r3] = quat2angle([q0,q1,q2,q3]);
+	if r3>0
+		r3 = r3-pi;
+	else
+		r3 = r3+pi;
+	end
+	if size(r1_plotbuff,2)<50
+		r1_plotbuff = [r1_plotbuff,r3];
+		r2_plotbuff = [r2_plotbuff,r2];
+	else
+		r1_plotbuff = r1_plotbuff(:,2:end);
+		r2_plotbuff = r2_plotbuff(:,2:end);
+		r1_plotbuff = [r1_plotbuff,r3];
+		r2_plotbuff = [r2_plotbuff,r2];
+	end
+	subplot(2,2,4)
+	axis manual
+	plot(1:length(r1_plotbuff),r1_plotbuff/pi*180,'r',...
+		1:length(r1_plotbuff),r2_plotbuff/pi*180,'b');
 	
 	drawnow limitrate
 
@@ -116,8 +168,9 @@ end
 fclose(sport);%关闭串口
 fclose(instrfind);
 
-function [x_est,y_est] = hubulvbo(acc_now,gyro_now)
-global count
+function [] = hubulvbo(acc_now,gyro_now)
+
+global count dt x_est y_est
 xa = atan(acc_now(2)./acc_now(3));
 ya = -asin(acc_now(1));
 if count == 1

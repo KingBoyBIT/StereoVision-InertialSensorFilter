@@ -16,7 +16,9 @@ setappdata(hImage,'UpdatePreviewWindowFcn',@update_livehistogram_display);
 
 start(obj1);
 start(obj2);
-for i = 1:500
+% for i = 1:500
+i = 1;
+while(1)
     snapshot1 = getsnapshot(obj1);
 	snapshot2 = getsnapshot(obj2);
 	subplot(2,2,1);

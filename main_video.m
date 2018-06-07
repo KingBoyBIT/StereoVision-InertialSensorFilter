@@ -10,6 +10,7 @@ set(obj2,'ReturnedColorSpace','rgb');
 triggerconfig(obj1,'manual');  
 triggerconfig(obj2,'manual');  
 fig1=figure(1);
+load('stereo_pair_param.mat');
 
 hImage = imshow(zeros(480,640));
 setappdata(hImage,'UpdatePreviewWindowFcn',@update_livehistogram_display);
@@ -30,10 +31,19 @@ while(1)
 	subplot(2,2,3);
 	frameLeftGray  = rgb2gray(snapshot1);
 	frameRightGray = rgb2gray(snapshot2);
-	disparityMap = disparity(frameLeftGray, frameRightGray);
+	[J1, J2] = rectifyStereoImages(snapshot1,snapshot2,stereoParams);
+	disparityMap = disparity(rgb2gray(J1), rgb2gray(J2));
 	imshow(disparityMap, [0, 64]);
 	frame1{i} = snapshot1;
 	frame2{i} = snapshot2;
+	
+	xyzPoints = reconstructScene(disparityMap,stereoParams);
+	Z = xyzPoints(:,:,3);
+	mask = repmat(Z > -3000 & Z < 3000,[1,1,3]);
+	J1(~mask) = 0;
+	subplot(2,2,4);
+	imshow(J1,'InitialMagnification',50);
+	drawnow
 end
 
 

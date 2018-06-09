@@ -29,13 +29,13 @@ while(1)
 	
 	subplot(2,2,1);
     imagesc(J1_valid);
-	drawnow
+	drawnow 
 	subplot(2,2,2);
     imagesc(J2_valid);
 	drawnow
 	subplot(2,2,3);
-	points1 = detectSURFFeatures(J1_valid,'MetricThreshold',500);
-	points2 = detectSURFFeatures(J2_valid,'MetricThreshold',500);
+	points1 = detectKAZEFeatures(J1_valid);
+	points2 = detectKAZEFeatures(J2_valid);
 	[f1,vpts1] = extractFeatures(J1_valid,points1);
 	[f2,vpts2] = extractFeatures(J2_valid,points2);
 	indexPairs = matchFeatures(f1,f2) ;
@@ -44,6 +44,11 @@ while(1)
 	showMatchedFeatures(J1_valid,J2_valid,matchedPoints1,matchedPoints2);
 	drawnow
 	subplot(2,2,4)
+	for i = 1:size(indexPairs,1)
+		Z(i,1) = stereoParams.TranslationOfCamera2(1)/10 ...
+			*stereoParams.CameraParameters1.FocalLength(1)/...
+			(matchedPoints2.Location(i,1)-matchedPoints1.Location(i,1));
+	end
 	% ªÊ÷∆≤‚¡øµƒæ‡¿Î
 	sp1 = snapshot1;
 	sp2 = snapshot2;

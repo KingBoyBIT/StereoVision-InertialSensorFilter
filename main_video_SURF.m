@@ -28,10 +28,10 @@ while(1)
 	[J1_valid,J2_valid] = rectifyStereoImages(I1,I2,stereoParams, 'OutputView','valid');
 	
 	subplot(2,2,1);
-    imagesc(J1_valid);
+%     imagesc(J1_valid);
 	drawnow 
 	subplot(2,2,2);
-    imagesc(J2_valid);
+%     imagesc(J2_valid);
 	drawnow
 	subplot(2,2,3);
 	points1 = detectKAZEFeatures(J1_valid);
@@ -41,15 +41,28 @@ while(1)
 	indexPairs = matchFeatures(f1,f2) ;
 	matchedPoints1 = vpts1(indexPairs(:,1));
 	matchedPoints2 = vpts2(indexPairs(:,2));
-	showMatchedFeatures(J1_valid,J2_valid,matchedPoints1,matchedPoints2);
+% 	showMatchedFeatures(J1_valid,J2_valid,matchedPoints1,matchedPoints2);
 	drawnow
 	subplot(2,2,4)
+	Z = [];
+% 	for i = 1:size(indexPairs,1)
+% 		Z(i,1) = stereoParams.TranslationOfCamera2(1)/10 ...
+% 			*stereoParams.CameraParameters1.FocalLength(1)/...
+% 			(matchedPoints2.Location(i,1)-matchedPoints1.Location(i,1));
+% 	end
 	for i = 1:size(indexPairs,1)
-		Z(i,1) = stereoParams.TranslationOfCamera2(1)/10 ...
+		Z{i,1} = sprintf('%4.2f', stereoParams.TranslationOfCamera2(1)/10 ...
 			*stereoParams.CameraParameters1.FocalLength(1)/...
-			(matchedPoints2.Location(i,1)-matchedPoints1.Location(i,1));
+			(matchedPoints2.Location(i,1)-matchedPoints1.Location(i,1)));
 	end
+	position = [matchedPoints1.Location,5*ones(size(matchedPoints1.Location,1),1)];
 	% ªÊ÷∆≤‚¡øµƒæ‡¿Î
+	if isempty(Z)~=1
+		
+		RGB = insertObjectAnnotation(J1_valid,'circle',position,Z,...
+			'TextBoxOpacity',0.9,'FontSize',18);
+		imshow(RGB);
+	end
 	sp1 = snapshot1;
 	sp2 = snapshot2;
 end

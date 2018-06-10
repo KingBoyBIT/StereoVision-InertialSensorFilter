@@ -30,10 +30,10 @@ while(1)
 	[J1_valid,J2_valid] = rectifyStereoImages(I1,I2,stereoParams, 'OutputView','valid');
 	
 	subplot(2,2,1);
-%     imagesc(J1_valid);
+    imagesc(J1_valid);
 	drawnow 
 	subplot(2,2,2);
-%     imagesc(J2_valid);
+    imagesc(J2_valid);
 	drawnow
 	subplot(2,2,3);
 	points1 = detectKAZEFeatures(J1_valid);
@@ -88,12 +88,14 @@ while(1)
 			q=quatnormalize(q);
 			out = [q T]';
 		end
-		fprintf('%8.2f ',T(1));
-		fprintf('%8.2f ',T(2));
-		fprintf('%8.2f\n',T(3));
+		if isempty(T)~=1
+			fprintf('%8.2f ',T(1));
+			fprintf('%8.2f ',T(2));
+			fprintf('%8.2f\n',T(3));
+		end
 	end
 	
-% 	showMatchedFeatures(J1_valid,J2_valid,matchedPoints1,matchedPoints2);
+	showMatchedFeatures(J1_valid,J2_valid,matchedPoints1,matchedPoints2);
 	drawnow
 	subplot(2,2,4)
 	Z = [];

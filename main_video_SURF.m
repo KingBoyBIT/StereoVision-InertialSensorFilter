@@ -70,28 +70,30 @@ while(1)
 			Zp2{i,2} = stereoParams.CameraParameters1.FocalLength(1)...
 				*mp2.Location(i,2)/Zp2{i,3};
 		end
-		V= double(cell2mat(Zp1));
-		V(:,4) = ones(size(V,1),1);
-		beta = inv(V'*V)*V'*double(cell2mat(Zp2));
-		R = beta(1:3,:);
-		T = beta(4,:);
-		if sum(sum((inv(V'*V) - pinv(V'*V)) > 1e-7))~=0
-			out = [1 0 0 0 0 0 0]';
-		else
-			[U,~,V]=svd(R);
-			if det(U)*det(V)>=0
-				RR=U*V';
+		if size(Zp1,1)>50
+			V= double(cell2mat(Zp1(1:50,:)));
+			V(:,4) = ones(size(V,1),1);
+			beta = inv(V'*V)*V'*double(cell2mat(Zp2(1:50,:)));
+			R = beta(1:3,:);
+			T = beta(4,:);
+			if sum(sum((inv(V'*V) - pinv(V'*V)) > 1e-7))~=0
+				out = [1 0 0 0 0 0 0]';
 			else
-				RR=U*diag([1 1 -1])*V';
+				[U,~,V]=svd(R);
+				if det(U)*det(V)>=0
+					RR=U*V';
+				else
+					RR=U*diag([1 1 -1])*V';
+				end
+				q = dcm2quat(RR);
+				q=quatnormalize(q);
+				out = [q T]';
 			end
-			q = dcm2quat(RR);
-			q=quatnormalize(q);
-			out = [q T]';
-		end
-		if isempty(T)~=1
-			fprintf('%8.2f ',T(1));
-			fprintf('%8.2f ',T(2));
-			fprintf('%8.2f\n',T(3));
+			if isempty(T)~=1
+				fprintf('%8.2f ',T(1));
+				fprintf('%8.2f ',T(2));
+				fprintf('%8.2f\n',T(3));
+			end
 		end
 	end
 	

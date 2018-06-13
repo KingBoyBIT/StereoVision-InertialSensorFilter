@@ -2,7 +2,7 @@ clear,clc,close all
 if isempty(imaqfind)~=1
 	delete(imaqfind)% 关闭正在占用的摄像头
 end
-imaqhwinfo
+imaqhwinfo;
 obj1 = videoinput('winvideo',1,'YUY2_640x480');
 obj2 = videoinput('winvideo',2,'YUY2_640x480');
 set(obj1,'ReturnedColorSpace','rgb');
@@ -123,8 +123,6 @@ while(1)
 	sp2 = matchedPoints2;
 end
 
-
-%%
 delete(obj1);
 clear obj1
 delete(obj2);

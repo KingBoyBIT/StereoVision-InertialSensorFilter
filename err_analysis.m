@@ -43,7 +43,7 @@ for delta = st:et
 end
 figure
 subplot(1,2,1)
-plot(width/2+st:width/2+et,1000*(pos_real(3,:)),'-r.',...
+semilogy(width/2+st:width/2+et,1000*(pos_real(3,:)),'-r.',...
 	width/2+st:width/2+et,1000*(pos_err(3,:)),'-b*')
 xlabel('像素坐标')
 ylabel('Z_c(mm)')
@@ -56,7 +56,7 @@ for i = 1:size(pos_err,2)
 end
 grid on
 subplot(1,2,2)
-plot(width/2+st:width/2+et,1000*(pos_real(3,:)-pos_err(3,:)),'-g*')
+semilogy(width/2+st:width/2+et,1000*(pos_real(3,:)-pos_err(3,:)),'-g*')
 xlabel('像素坐标')
 ylabel('Z_c(mm)')
 title('亚像素误差下的深度偏差')

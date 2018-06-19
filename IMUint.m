@@ -121,7 +121,7 @@ while(1)
 	ex = (ay * vz - az * vy);
 	ey = (az * vx - ax * vz);
 	ez = (ax * vy - ay * vx);
-	Kp = 8.000;
+	Kp = 16.000;
 	Ki = 0.001;
 	Kd = 0.05;
 	eInt = eInt + [ex;ey;ez]*Ki;

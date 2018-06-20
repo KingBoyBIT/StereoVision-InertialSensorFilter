@@ -4,7 +4,7 @@ if isempty(instrfind)~=1
 	fclose(instrfind)% 关闭正在占用的串口
 end
 
-global gyrobuff gyrostatic count q eInt last_e
+global gyrobuff gyrostatic count q eInt last_e x_est y_est
 
 gyrobuff = [];
 gyrostatic = [];
@@ -18,3 +18,5 @@ q3 = 0;
 q = [q0;q1;q2;q3];
 eInt = zeros(3,1);
 last_e = zeros(3,1);
+x_est = 0;
+y_est = 0;

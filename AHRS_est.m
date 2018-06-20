@@ -35,5 +35,5 @@ q1 = q1 + (q0 * gx + q2 * gz - q3 * gy) * halfT;
 q2 = q2 + (q0 * gy - q1 * gz + q3 * gx) * halfT;
 q3 = q3 + (q0 * gz + q1 * gy - q2 * gx) * halfT;
 [r1,r2,r3] = quat2angle([q0,q1,q2,q3]);
-out = [r3/pi*180;r2/pi*180];
+out = [-r3/pi*180;r2/pi*180];
 end

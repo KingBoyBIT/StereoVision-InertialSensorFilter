@@ -20,3 +20,7 @@ eInt = zeros(3,1);
 last_e = zeros(3,1);
 x_est = 0;
 y_est = 0;
+
+img = imread('Lenna_(test_image).png');
+% img = rgb2gray(img);
+% img = double(img);

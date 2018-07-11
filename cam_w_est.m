@@ -27,5 +27,13 @@ while(1)
 	img1 = rgb2gray(snapshot1);
 	img2 = rgb2gray(snapshot2);
 	points1 = detectSURFFeatures(img1);
-	points2 = detectSURFFeatures(img2); 
+	points2 = detectSURFFeatures(img2);
+	%Extract the features.计算描述向量
+	[f1, vpts1] = extractFeatures(img1, points1);
+	[f2, vpts2] = extractFeatures(img2, points2);
+	%Retrieve the locations of matched points. The SURF feature vectors are already normalized.
+	%进行匹配
+	indexPairs = matchFeatures(f1, f2, 'Prenormalized', true) ;
+	matched_pts1 = vpts1(indexPairs(:, 1));
+	matched_pts2 = vpts2(indexPairs(:, 2));
 end

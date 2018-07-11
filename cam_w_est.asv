@@ -42,18 +42,10 @@ while(1)
 		inliermatch1 = matched_pts1(inliersIndex,:);
 		inliermatch2 = matched_pts2(inliersIndex,:);
 		% 对于多于8对点以上的特征点
-		A = [];
-		for i = 1:8
-% 		for i = 1:length(inliermatch1)
+		for i = 1:length(inliermatch1)
 			p1 = double(inliermatch1(i).Location);
 			p2 = double(inliermatch2(i).Location);
-			u1 = p1(1);v1 = p1(2);
-			u2 = p2(1);v2 = p2(2);
-			A(i,:)=[u1*u2 u1*v2 u1 v1*u2 v1*v2 v1 u2 v2 1];
+			u1x = 
 		end
-% 		b = zeros(8,1);
-% 		y = pinv(A)*b;
-		r = rank(A);
-		yy = null(A, r );
 	end
 end

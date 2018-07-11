@@ -54,6 +54,10 @@ while(1)
 % 		b = zeros(8,1);
 % 		y = pinv(A)*b;
 		r = rank(A);
-		yy = null(A, r );
+		e = null(A,r);
+		E = [e(1) e(2) e(3);e(4) e(5) e(6);e(7) e(8) e(9)];
+		[U,S,V]=svd(E);
+		s = diag(S);
+		EE = U*diag([(s(1)+s(2))/2 (s(1)+s(2))/2 0])*V;
 	end
 end

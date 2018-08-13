@@ -10,20 +10,21 @@ cy = tand(60)*f;
 K = [f 0 cx 0;
 	0 f cy 0;
 	0 0 1 0];
-R = angle2dcm(0.03,0.04,0.05)
-t = [0.05;0.06;0.04];
-num = 10000;
+R = angle2dcm(0.03,0.04,0.05);
+t = [0.005;0.006;0.004];
+num = 100;
 for i = 1:num
 	P = 10*rand(3,1);
+	P(3) = abs(P(3));
 	p = 1/P(3)*K*[P;1];
 	pp_a{i,1} = p;
-	p = 1/P(3)*K*[R*P+t;1];
+	pc = R*P+t;
+	p = 1/pc(3)*K*[R*P+t;1];
 	pp_b{i,1} = p;
 end
 
 A = [];
 for i = 1:num
-	% 		for i = 1:length(inliermatch1)
 	p1 = pp_b{i,1};
 	p2 = pp_a{i,1};
 	u1 = p1(1);v1 = p1(2);

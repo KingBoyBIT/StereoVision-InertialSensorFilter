@@ -23,5 +23,11 @@
     <ClInclude Include="commonHeader\types.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="commonHeader\err_def.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="commonHeader\alldef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

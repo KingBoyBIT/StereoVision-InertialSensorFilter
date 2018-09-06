@@ -25,6 +25,7 @@ namespace svo {
 
 		void AbstractDetector::setExistingFeatures(const Features& fts)
 		{
+
 			std::for_each(fts.begin(), fts.end(), [&](Feature* i) {
 				grid_occupancy_.at(
 					static_cast<int>(i->px[1] / cell_size_)*grid_n_cols_

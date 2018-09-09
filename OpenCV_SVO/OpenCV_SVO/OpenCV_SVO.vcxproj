@@ -69,7 +69,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>c:\opencv\opencv\build\include\opencv2;c:\opencv\opencv\build\include\opencv;c:\opencv\opencv\build\include;$(IncludePath)</IncludePath>
+    <IncludePath>c:\opencv\opencv\build\include\opencv2;c:\opencv\opencv\build\include\opencv;c:\opencv\opencv\build\include;D:\Codes\githubcodes\StereoVision-InertialSensorFilter\OpenCV_SVO\OpenCV_SVO\features\eigen3;$(IncludePath)</IncludePath>
     <LibraryPath>c:\opencv\opencv\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

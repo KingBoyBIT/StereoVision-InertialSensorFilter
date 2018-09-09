@@ -8,7 +8,7 @@
 #include <vikit/math_utils.h>
 #include <vikit/abstract_camera.h>
 #include <boost/noncopyable.hpp>
-#include <svo/global.h>
+#include "global.h"
 
 namespace g2o {
 class VertexSE3Expmap;

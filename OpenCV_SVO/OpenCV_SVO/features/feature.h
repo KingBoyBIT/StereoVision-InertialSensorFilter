@@ -4,7 +4,7 @@
 #ifndef SVO_FEATURE_H_
 #define SVO_FEATURE_H_
 
-#include <svo/frame.h>
+#include "frame.h"
 
 namespace svo {
 

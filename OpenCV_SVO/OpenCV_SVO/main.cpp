@@ -14,7 +14,11 @@ int main()
 	
 	VideoCapture cap;
 	cap.open(0);
-
+	cap.set(cv::CAP_PROP_POS_MSEC, 0.05);
+	cap.set(cv::CAP_PROP_FPS, 30);
+	cap.set(cv::CAP_PROP_FOCUS, 25);
+	cap.set(cv::CAP_PROP_FRAME_HEIGHT, 240);
+	cap.set(cv::CAP_PROP_FRAME_WIDTH, 320);
 	if (cap.isOpened() != true)
 	{
 		return ERR_OPEN_CAM;
@@ -24,6 +28,7 @@ int main()
 		//Mat img = imread("Lenna_(test_image).png");
 		Mat frame;
 		cap >> frame;
+
 		if (frame.data == NULL)
 		{
 			return ERR_OPEN_IMG;

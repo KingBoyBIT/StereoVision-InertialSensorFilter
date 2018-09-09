@@ -18,18 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="features\feature_detection.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="features\frame.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="features\config.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="features\point.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonHeader\types.h">
@@ -41,22 +29,7 @@
     <ClInclude Include="commonHeader\alldef.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="features\feature.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="features\feature_detection.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="features\frame.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="features\config.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="features\point.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="features\global.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

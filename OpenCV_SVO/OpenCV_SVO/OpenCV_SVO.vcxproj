@@ -115,10 +115,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="features\config.cpp" />
-    <ClCompile Include="features\feature_detection.cpp" />
-    <ClCompile Include="features\frame.cpp" />
-    <ClCompile Include="features\point.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -126,11 +122,6 @@
     <ClInclude Include="commonHeader\err_def.h" />
     <ClInclude Include="commonHeader\types.h" />
     <ClInclude Include="features\config.h" />
-    <ClInclude Include="features\feature.h" />
-    <ClInclude Include="features\feature_detection.h" />
-    <ClInclude Include="features\frame.h" />
-    <ClInclude Include="features\global.h" />
-    <ClInclude Include="features\point.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

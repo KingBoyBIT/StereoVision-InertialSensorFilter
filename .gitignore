@@ -245,3 +245,5 @@ ModelManifest.xml
 ##############################
 target
 OpenCV_SVO/OpenCV_SVO/features/eigen3
+OpenCV_SVO/OpenCV_SVO/features/boost
+OpenCV_SVO/OpenCV_SVO/features/vikit

@@ -4,10 +4,10 @@
 #ifndef SVO_FRAME_H_
 #define SVO_FRAME_H_
 
-#include <sophus/se3.h>
-#include <vikit/math_utils.h>
-#include <vikit/abstract_camera.h>
-#include <boost/noncopyable.hpp>
+#include "sophus/se3.hpp"
+#include "vikit/math_utils.h"
+#include "vikit/abstract_camera.h"
+#include "boost/noncopyable.hpp"
 #include "global.h"
 
 namespace g2o {

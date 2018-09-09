@@ -9,12 +9,12 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
-//#include "eigen3\Eigen\src\Core"
+//#include "\Eigen\Core"
 #include <Eigen/Core>
 #include <opencv2/opencv.hpp>
-#include <sophus/se3.h>
+#include "sophus\se3.hpp"
 #include <vikit/performance_monitor.h>
-#include <boost/shared_ptr.hpp>
+#include "boost/shared_ptr.hpp"
 #include <Eigen/StdVector>
 #ifndef RPG_SVO_VIKIT_IS_VECTOR_SPECIALIZED //Guard for rpg_vikit
 #define RPG_SVO_VIKIT_IS_VECTOR_SPECIALIZED
@@ -54,11 +54,12 @@ EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION(Eigen::Vector2d)
       } \
     } while(0)
 #endif
-
+using namespace std;
 namespace svo
 {
 	using namespace Eigen;
 	using namespace Sophus;
+	using namespace std; 
 
 	const double EPS = 0.0000000001;
 	const double PI = 3.14159265;

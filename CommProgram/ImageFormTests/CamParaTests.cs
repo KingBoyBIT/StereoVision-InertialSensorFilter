@@ -60,15 +60,20 @@ namespace ImageForm.Tests
 		//
 		#endregion
 
+		/// <summary>
+		/// 相机模型测试
+		/// </summary>
 		[TestMethod()]
 		public void CamParaTest()
 		{
+
 			string imagename = "000037_10.png";
 			string path = datasetFilePath + trainPath + trainPathList[0] + imagename;
 			Image<Bgr, byte> image = new Image<Bgr, byte>(path);
 
 			CvInvoke.Imshow("testimage", image);
 			//System.Console.WriteLine(datasetFilePath + trainPath + trainPathList[0]);
+
 		}
 	}
 }

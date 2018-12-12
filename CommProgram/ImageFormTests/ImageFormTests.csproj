@@ -91,7 +91,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.XML" />
     <Reference Include="ZedGraph">
       <HintPath>C:\Emgu\emgucv-windesktop 3.4.3.3016\bin\ZedGraph.dll</HintPath>
     </Reference>

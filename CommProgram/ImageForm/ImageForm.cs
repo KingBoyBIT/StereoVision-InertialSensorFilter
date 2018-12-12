@@ -50,7 +50,7 @@ namespace ImageForm
 		private void LoadImageBtn_Click(object sender, EventArgs e)
 		{
 			Image<Bgr, Byte> image = new Image<Bgr, byte>("src.png");
-
+			CvInvoke.Imshow("test", image);
 		}
 	}
 }

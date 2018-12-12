@@ -74,6 +74,7 @@ namespace ImageForm.Tests
 			CvInvoke.Imshow("testimage", image);
 			System.Console.WriteLine(datasetFilePath + trainPath + trainPathList[0]);
 
+
 		}
 	}
 }

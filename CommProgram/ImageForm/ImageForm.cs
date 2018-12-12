@@ -49,7 +49,7 @@ namespace ImageForm
 		/// <param name="e"></param>
 		private void LoadImageBtn_Click(object sender, EventArgs e)
 		{
-			Image<Bgr, Byte> image = new Image<Bgr, byte>("src.jpg");
+			Image<Bgr, Byte> image = new Image<Bgr, byte>("src.png");
 
 		}
 	}

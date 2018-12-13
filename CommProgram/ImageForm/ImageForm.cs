@@ -52,11 +52,15 @@ namespace ImageForm
 		{
 			string imagename = "000037_10.png";
 			string path = "";
-			path = datasetFilePath + trainPath + trainPathList[0] + imagename;
-			Image<Gray, byte> image_disp_noc_0 = new Image<Gray, byte>(path);
+			Image<Gray, byte> image_disp_noc_0;
+			Image<Gray, byte> image_disp_noc_1;
 
+			#region 导入资源
+			path = datasetFilePath + trainPath + trainPathList[0] + imagename;
+			image_disp_noc_0 = new Image<Gray, byte>(path);
 			path = datasetFilePath + trainPath + trainPathList[1] + imagename;
-			Image<Gray, byte> image_disp_noc_1 = new Image<Gray, byte>(path);
+			image_disp_noc_1 = new Image<Gray, byte>(path); 
+			#endregion
 
 			int rowNumber = image_disp_noc_0.Rows;
 			int colNumber = image_disp_noc_0.Cols;

@@ -68,10 +68,14 @@ namespace ImageForm.Tests
 		{
 
 			string imagename = "000037_10.png";
-			string path = datasetFilePath + trainPath + trainPathList[0] + imagename;
-			Image<Bgr, byte> image = new Image<Bgr, byte>(path);
+			string path = "";
+			path = datasetFilePath + trainPath + trainPathList[0] + imagename;
+			Image<Bgr, byte> image_disp_noc_0 = new Image<Bgr, byte>(path);
 
-			CvInvoke.Imshow("testimage", image);
+			path = datasetFilePath + trainPath + trainPathList[1] + imagename;
+			Image<Bgr, byte> image_disp_noc_1 = new Image<Bgr, byte>(path);
+
+			CvInvoke.Imshow("testimage", image_disp_noc_0);
 			System.Console.WriteLine(datasetFilePath + trainPath + trainPathList[0]);
 
 

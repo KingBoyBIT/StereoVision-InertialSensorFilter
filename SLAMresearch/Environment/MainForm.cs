@@ -52,66 +52,82 @@ namespace Environment
 		/// <param name="e"></param>
 		private void MapPictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (this.DrawSelect.GetItemCheckState(4) == CheckState.Checked
-				&& this.DrawSelect.GetItemCheckState(3) == CheckState.Unchecked)//删除关键点
+			#region 左键事件
+			if (e.Button == MouseButtons.Left)
 			{
-				PointF pf = new PointF(e.X, e.Y);
-				int width = 10;
-				int height = 10;
-				for (int i = 0; i < keypoints.Count; i++)
+				if (this.DrawSelect.GetItemCheckState(4) == CheckState.Checked
+				&& this.DrawSelect.GetItemCheckState(3) == CheckState.Unchecked)//删除关键点
 				{
-					for (int x = (int)keypoints[i].X - Width; x < (int)keypoints[i].X + width; x++)
+					PointF pf = new PointF(e.X, e.Y);
+					int width = 10;
+					int height = 10;
+					for (int i = 0; i < keypoints.Count; i++)
 					{
-						for (int y = (int)keypoints[i].Y - height; y < (int)keypoints[i].Y + height; y++)
+						for (int x = (int)keypoints[i].X - Width; x < (int)keypoints[i].X + width; x++)
 						{
-							if (x == e.X && y == e.Y)
+							for (int y = (int)keypoints[i].Y - height; y < (int)keypoints[i].Y + height; y++)
 							{
-								delete_pt_idx.Add(i);
+								if (x == e.X && y == e.Y)
+								{
+									delete_pt_idx.Add(i);
+								}
 							}
 						}
 					}
-				}
-				//remove point and draw again
-				if (delete_pt_idx.Count == 1)//一次删除一个点
-				{
-					PointF pfd = keypoints[delete_pt_idx[0]];
-					keypoints.RemoveAt(delete_pt_idx[0]);
+					//remove point and draw again
+					if (delete_pt_idx.Count == 1)//一次删除一个点
+					{
+						PointF pfd = keypoints[delete_pt_idx[0]];
+						keypoints.RemoveAt(delete_pt_idx[0]);
 
-					Graphics g = this.MapPictureBox.CreateGraphics();
-					Pen p = new Pen(Color.White, 1);
-					//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
-					Brush b = new SolidBrush(Color.White);
+						Graphics g = this.MapPictureBox.CreateGraphics();
+						Pen p = new Pen(Color.White, 1);
+						//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
+						Brush b = new SolidBrush(Color.White);
+						int size = 4;
+						g.FillRectangle(b, pfd.X - size / 2, pfd.Y - size / 2, size, size);
+						delete_pt_idx.Clear();
+					}
+					else if (delete_pt_idx.Count > 1)//附近有多个点
+					{
+						SelectForm sf = new SelectForm(this);
+						sf.ShowDialog();
+
+						delete_pt_idx.Clear();
+					}
+					else//没有点
+					{
+						delete_pt_idx.Clear();
+					}
+				}
+				else if (this.DrawSelect.GetItemCheckState(3) == CheckState.Checked
+						&& this.DrawSelect.GetItemCheckState(4) == CheckState.Unchecked)//设置关键点
+				{
 					int size = 4;
-					g.FillRectangle(b, pfd.X - size / 2, pfd.Y - size / 2, size, size);
-					delete_pt_idx.Clear();
-				}
-				else if (delete_pt_idx.Count > 1)//附近有多个点
-				{
-					SelectForm sf = new SelectForm(this);
-					sf.ShowDialog();
-					
-					delete_pt_idx.Clear();
-				}
-				else//没有点
-				{
-					delete_pt_idx.Clear();
-				}
-			}
-			else if (this.DrawSelect.GetItemCheckState(3) == CheckState.Checked
-				&& this.DrawSelect.GetItemCheckState(4) == CheckState.Unchecked)//设置关键点
-			{
-				int size = 4;
-				PointF pt = new PointF(e.X, e.Y);
-				keypoints.Add(pt);
-				Graphics g = this.MapPictureBox.CreateGraphics();
-				Pen p = new Pen(Color.Red, 1);
-				//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
-				Brush b = new SolidBrush(Color.Red);
-				g.FillRectangle(b, e.X - size / 2, e.Y - size / 2, size, size);
-				
-				Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
-			}
+					PointF pt = new PointF(e.X, e.Y);
+					keypoints.Add(pt);
+					Graphics g = this.MapPictureBox.CreateGraphics();
+					Pen p = new Pen(Color.Red, 1);
+					//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
+					Brush b = new SolidBrush(Color.Red);
+					g.FillRectangle(b, e.X - size / 2, e.Y - size / 2, size, size);
 
+					Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
+				}
+			}
+			#endregion
+			#region 右键事件
+			else if (e.Button == MouseButtons.Right)
+			{
+
+			}
+			#endregion
+			#region 其他事件
+			else
+			{
+				//do nothing
+			}
+			#endregion
 		}
 
 		private void MapPictureBox_Paint(object sender, PaintEventArgs e)

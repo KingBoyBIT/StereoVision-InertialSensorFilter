@@ -14,22 +14,25 @@ namespace Environment
 	{
 		List<int> del;
 		//实例主窗体
-		MainForm pall;
-		public SelectForm(MainForm mf)
+		MainForm mf;
+		public SelectForm(MainForm mform)
 		{
 			InitializeComponent();
-			pall = mf;
+			this.mf = mform;
+			del = this.mf.delete_pt_idx;
+
+			List<PointF> delptflst = new List<PointF>();
+			for (int i = 0; i < del.Count; i++)
+			{
+				delptflst.Add(this.mf.keypoints[del[i]]);
+				string str = "point:" + this.mf.keypoints[del[i]].X.ToString() + "," + this.mf.keypoints[del[i]].Y.ToString();
+				this.checkedListBox1.Items.Add(str, false);
+			}
 		}
 
 		private void DeletePointBtn_Click(object sender, EventArgs e)
 		{
-			del = pall.delete_pt_idx;
 			
-			List<PointF> delptflst = new List<PointF>();
-			for (int i = 0; i < del.Count; i++)
-			{
-				delptflst.Add(pall.keypoints[del[i]]);
-			}
 		}
 
 

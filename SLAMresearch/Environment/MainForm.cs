@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,9 @@ namespace Environment
 {
 	public partial class MainForm : Form
 	{
-		List<PointF> keypoints = new List<PointF>();
+		public List<PointF> keypoints = new List<PointF>();
+		public List<int> delete_pt_idx = new List<int>();
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -20,7 +23,11 @@ namespace Environment
 
 		private void MapGenBtn_Click(object sender, EventArgs e)
 		{
-
+			FileStream fs = new FileStream("map.jpg", FileMode.Create);
+			Bitmap bp = new Bitmap(this.MapPictureBox.Image);
+			//Graphics newGraphics = Graphics.FromImage
+			bp.Save(fs, System.Drawing.Imaging.ImageFormat.Jpeg);
+			fs.Close();
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
@@ -41,7 +48,6 @@ namespace Environment
 				PointF pf = new PointF(e.X, e.Y);
 				int width = 10;
 				int height = 10;
-				List<int> delete_pt_idx = new List<int>();
 				for (int i = 0; i < keypoints.Count; i++)
 				{
 					for (int x = (int)keypoints[i].X - Width; x < (int)keypoints[i].X + width; x++)
@@ -67,15 +73,18 @@ namespace Environment
 					Brush b = new SolidBrush(Color.White);
 					int size = 4;
 					g.FillRectangle(b, pfd.X - size / 2, pfd.Y - size / 2, size, size);
+					delete_pt_idx.Clear();
 				}
 				else if (delete_pt_idx.Count > 1)//附近有多个点
 				{
-					Form selectform = new Form();
+					SelectForm sf = new SelectForm(this);
+					sf.ShowDialog();
 					
+					delete_pt_idx.Clear();
 				}
 				else//没有点
 				{
-					//do nothing
+					delete_pt_idx.Clear();
 				}
 			}
 			else if (this.DrawSelect.GetItemCheckState(3) == CheckState.Checked
@@ -108,6 +117,7 @@ namespace Environment
 			Brush b = new SolidBrush(Color.White);
 			g.FillRectangle(b, 0, 0, MapPictureBox.Width, MapPictureBox.Height);
 			//g.DrawLines(p, pts.ToArray());
+			//Bitmap bp = new Bitmap()
 		}
 
 		private void DrawSelect_ItemCheck(object sender, ItemCheckEventArgs e)

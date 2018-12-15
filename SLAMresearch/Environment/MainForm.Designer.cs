@@ -47,6 +47,8 @@
 			this.GridcheckBox = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.GridSizetextBox = new System.Windows.Forms.TextBox();
+			this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.添加定位点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.MapContextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -79,9 +81,11 @@
 			// MapContextMenuStrip
 			// 
 			this.MapContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.标记为ToolStripMenuItem});
+            this.标记为ToolStripMenuItem,
+            this.删除ToolStripMenuItem,
+            this.添加定位点ToolStripMenuItem});
 			this.MapContextMenuStrip.Name = "MapContextMenuStrip";
-			this.MapContextMenuStrip.Size = new System.Drawing.Size(113, 26);
+			this.MapContextMenuStrip.Size = new System.Drawing.Size(137, 70);
 			// 
 			// 标记为ToolStripMenuItem
 			// 
@@ -224,6 +228,18 @@
 			this.GridSizetextBox.TabIndex = 8;
 			this.GridSizetextBox.Text = "10";
 			// 
+			// 删除ToolStripMenuItem
+			// 
+			this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
+			this.删除ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.删除ToolStripMenuItem.Text = "删除";
+			// 
+			// 添加定位点ToolStripMenuItem
+			// 
+			this.添加定位点ToolStripMenuItem.Name = "添加定位点ToolStripMenuItem";
+			this.添加定位点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.添加定位点ToolStripMenuItem.Text = "添加定位点";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -270,6 +286,8 @@
 		private System.Windows.Forms.CheckBox GridcheckBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox GridSizetextBox;
+		private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 添加定位点ToolStripMenuItem;
 	}
 }
 

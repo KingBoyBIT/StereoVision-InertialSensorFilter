@@ -29,8 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.MapGenBtn = new System.Windows.Forms.Button();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.MapPictureBox = new System.Windows.Forms.PictureBox();
+			this.DrawSelect = new System.Windows.Forms.CheckedListBox();
+			this.Rec_text = new System.Windows.Forms.TextBox();
+			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// MapGenBtn
@@ -43,32 +45,61 @@
 			this.MapGenBtn.UseVisualStyleBackColor = true;
 			this.MapGenBtn.Click += new System.EventHandler(this.MapGenBtn_Click);
 			// 
-			// pictureBox1
+			// MapPictureBox
 			// 
-			this.pictureBox1.Location = new System.Drawing.Point(202, 12);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(900, 490);
-			this.pictureBox1.TabIndex = 1;
-			this.pictureBox1.TabStop = false;
+			this.MapPictureBox.Location = new System.Drawing.Point(374, 12);
+			this.MapPictureBox.Name = "MapPictureBox";
+			this.MapPictureBox.Size = new System.Drawing.Size(900, 490);
+			this.MapPictureBox.TabIndex = 1;
+			this.MapPictureBox.TabStop = false;
+			this.MapPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.MapPictureBox_Paint);
+			this.MapPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MapPictureBox_MouseDown);
+			// 
+			// DrawSelect
+			// 
+			this.DrawSelect.FormattingEnabled = true;
+			this.DrawSelect.Items.AddRange(new object[] {
+            "绘制边界",
+            "绘制障碍",
+            "绘制路径",
+            "设置特殊位置坐标点"});
+			this.DrawSelect.Location = new System.Drawing.Point(173, 13);
+			this.DrawSelect.Name = "DrawSelect";
+			this.DrawSelect.Size = new System.Drawing.Size(195, 84);
+			this.DrawSelect.TabIndex = 2;
+			// 
+			// Rec_text
+			// 
+			this.Rec_text.Location = new System.Drawing.Point(12, 258);
+			this.Rec_text.Multiline = true;
+			this.Rec_text.Name = "Rec_text";
+			this.Rec_text.Size = new System.Drawing.Size(356, 244);
+			this.Rec_text.TabIndex = 3;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1114, 517);
-			this.Controls.Add(this.pictureBox1);
+			this.ClientSize = new System.Drawing.Size(1286, 519);
+			this.Controls.Add(this.Rec_text);
+			this.Controls.Add(this.DrawSelect);
+			this.Controls.Add(this.MapPictureBox);
 			this.Controls.Add(this.MapGenBtn);
 			this.Name = "MainForm";
 			this.Text = "地图及数据生成工具";
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			this.Load += new System.EventHandler(this.MainForm_Load);
+			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
 		private System.Windows.Forms.Button MapGenBtn;
-		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.PictureBox MapPictureBox;
+		private System.Windows.Forms.CheckedListBox DrawSelect;
+		private System.Windows.Forms.TextBox Rec_text;
 	}
 }
 

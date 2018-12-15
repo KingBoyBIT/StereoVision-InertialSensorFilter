@@ -117,7 +117,16 @@ namespace Environment
 				else if (this.DrawSelect.GetItemCheckState(3) == CheckState.Checked
 								&& this.DrawSelect.GetItemCheckState(4) == CheckState.Unchecked)//设置关键点
 				{
-
+					#region 去重
+					foreach (PointF item in keypoints)
+					{
+						if (item.X==e.X&&item.Y==e.Y)
+						{
+							Rec_text.AppendText("该点重复！\r\n");
+							return;
+						}
+					}
+					#endregion
 					PointF pt = new PointF(e.X, e.Y);
 					keypoints.Add(pt);
 					Graphics g = this.MapPictureBox.CreateGraphics();

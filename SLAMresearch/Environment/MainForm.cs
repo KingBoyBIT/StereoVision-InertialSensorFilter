@@ -128,9 +128,6 @@ namespace Environment
 							ct++;
 						}
 						reportUI(Posptlst, MapKeyPoint.ptype.定位点);
-
-						
-
 						delete_pt_idx.Clear();
 					}
 					else//没有点

@@ -57,16 +57,19 @@
 			// 
 			// DrawSelect
 			// 
+			this.DrawSelect.CheckOnClick = true;
 			this.DrawSelect.FormattingEnabled = true;
 			this.DrawSelect.Items.AddRange(new object[] {
             "绘制边界",
             "绘制障碍",
             "绘制路径",
-            "设置特殊位置坐标点"});
+            "设置特殊位置坐标点",
+            "删除特殊位置坐标点"});
 			this.DrawSelect.Location = new System.Drawing.Point(173, 13);
 			this.DrawSelect.Name = "DrawSelect";
 			this.DrawSelect.Size = new System.Drawing.Size(195, 84);
 			this.DrawSelect.TabIndex = 2;
+			this.DrawSelect.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.DrawSelect_ItemCheck);
 			// 
 			// Rec_text
 			// 

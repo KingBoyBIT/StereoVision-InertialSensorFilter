@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,14 +18,24 @@ namespace Environment
 	/// </summary>
 	public partial class MainForm : Form
 	{
+		MouseOpr mo;//控制鼠标范围
+		bool paint = false;//是否跟随鼠标绘制
+		int size = 4;
+		int snapsize = 10;
 		public List<PointF> keypoints = new List<PointF>();
 		public List<int> delete_pt_idx = new List<int>();
 
 		public MainForm()
 		{
 			InitializeComponent();
+			mo = new MouseOpr();
+			mo.globMoCtx = 0;
 		}
-
+		/// <summary>
+		/// 生成地图
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void MapGenBtn_Click(object sender, EventArgs e)
 		{
 			FileStream fs = new FileStream("map.bmp", FileMode.Create);
@@ -53,10 +64,12 @@ namespace Environment
 		private void MapPictureBox_MouseDown(object sender, MouseEventArgs e)
 		{
 			#region 左键事件
+
 			if (e.Button == MouseButtons.Left)
 			{
+				#region 删除点
 				if (this.DrawSelect.GetItemCheckState(4) == CheckState.Checked
-				&& this.DrawSelect.GetItemCheckState(3) == CheckState.Unchecked)//删除关键点
+						&& this.DrawSelect.GetItemCheckState(3) == CheckState.Unchecked)//删除关键点
 				{
 					PointF pf = new PointF(e.X, e.Y);
 					int width = 10;
@@ -84,7 +97,6 @@ namespace Environment
 						Pen p = new Pen(Color.White, 1);
 						//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
 						Brush b = new SolidBrush(Color.White);
-						int size = 4;
 						g.FillRectangle(b, pfd.X - size / 2, pfd.Y - size / 2, size, size);
 						delete_pt_idx.Clear();
 					}
@@ -100,10 +112,12 @@ namespace Environment
 						delete_pt_idx.Clear();
 					}
 				}
+				#endregion
+				#region 添加点
 				else if (this.DrawSelect.GetItemCheckState(3) == CheckState.Checked
-						&& this.DrawSelect.GetItemCheckState(4) == CheckState.Unchecked)//设置关键点
+								&& this.DrawSelect.GetItemCheckState(4) == CheckState.Unchecked)//设置关键点
 				{
-					int size = 4;
+					
 					PointF pt = new PointF(e.X, e.Y);
 					keypoints.Add(pt);
 					Graphics g = this.MapPictureBox.CreateGraphics();
@@ -113,7 +127,8 @@ namespace Environment
 					g.FillRectangle(b, e.X - size / 2, e.Y - size / 2, size, size);
 
 					Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
-				}
+				} 
+				#endregion
 			}
 			#endregion
 			#region 右键事件
@@ -160,5 +175,29 @@ namespace Environment
 				this.DrawSelect.SetItemCheckState(4, CheckState.Unchecked);
 			}
 		}
+
+		/// <summary>
+		/// 鼠标关键点吸附
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MapPictureBox_MouseMove(object sender, MouseEventArgs e)
+		{
+			//Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
+			for (int i = 0; i < keypoints.Count; i++)
+			{
+				if (keypoints[i].X - snapsize / 2 < e.X &&
+					keypoints[i].X + snapsize / 2 > e.X &&
+					keypoints[i].Y - snapsize / 2 < e.Y &&
+					keypoints[i].Y + snapsize / 2 > e.Y &&
+					mo.globMoCtx < snapsize
+					)
+				{
+					mo.MoveMouseToPoint(this.MapPictureBox.PointToScreen(new Point((int)keypoints[i].X, (int)keypoints[i].Y)));
+					break;
+				}
+			}
+		}
+	
 	}
 }

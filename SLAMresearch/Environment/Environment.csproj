@@ -53,6 +53,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MapKeyPoint.cs" />
+    <Compile Include="MouseOpr.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectForm.cs">

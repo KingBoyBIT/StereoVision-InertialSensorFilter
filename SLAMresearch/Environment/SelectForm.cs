@@ -20,7 +20,7 @@ namespace Environment
 			InitializeComponent();
 			this.mf = mform;
 			del = this.mf.delete_pt_idx;
-
+			//添加列表
 			List<PointF> delptflst = new List<PointF>();
 			for (int i = 0; i < del.Count; i++)
 			{
@@ -28,6 +28,8 @@ namespace Environment
 				string str = "point:" + this.mf.keypoints[del[i]].X.ToString() + "," + this.mf.keypoints[del[i]].Y.ToString();
 				this.checkedListBox1.Items.Add(str, false);
 			}
+			//绘制局部大图
+
 		}
 
 		private void DeletePointBtn_Click(object sender, EventArgs e)

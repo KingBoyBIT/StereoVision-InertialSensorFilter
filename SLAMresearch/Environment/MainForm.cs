@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,11 +24,17 @@ namespace Environment
 
 		private void MapGenBtn_Click(object sender, EventArgs e)
 		{
-			FileStream fs = new FileStream("map.jpg", FileMode.Create);
-			Bitmap bp = new Bitmap(this.MapPictureBox.Image);
-			//Graphics newGraphics = Graphics.FromImage
-			bp.Save(fs, System.Drawing.Imaging.ImageFormat.Jpeg);
+			FileStream fs = new FileStream("map.bmp", FileMode.Create);
+			Bitmap bp = new Bitmap(this.MapPictureBox.Width, this.MapPictureBox.Height);//实例化一个和窗体一样大的bitmap
+			Graphics g = Graphics.FromImage(bp);
+			g.CompositingQuality = CompositingQuality.HighQuality;//质量设为最高
+			g.CopyFromScreen(this.MapPictureBox.PointToScreen(new Point(0, 0)), new Point(0, 0), new Size(this.MapPictureBox.Width, this.MapPictureBox.Height));
+			//g.CopyFromScreen(this.MapPictureBox.Left, this.Top + this.MapPictureBox.Top, 0, 0, new Size(this.MapPictureBox.Width, this.MapPictureBox.Height));//保存整个窗体为图片
+			//bit.Save("weiboTemp.png");
+
+			bp.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
 			fs.Close();
+			MessageBox.Show("生成成功");
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
@@ -98,6 +105,7 @@ namespace Environment
 				//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
 				Brush b = new SolidBrush(Color.Red);
 				g.FillRectangle(b, e.X - size / 2, e.Y - size / 2, size, size);
+				
 				Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
 			}
 
@@ -117,6 +125,7 @@ namespace Environment
 			Brush b = new SolidBrush(Color.White);
 			g.FillRectangle(b, 0, 0, MapPictureBox.Width, MapPictureBox.Height);
 			//g.DrawLines(p, pts.ToArray());
+			
 			//Bitmap bp = new Bitmap()
 		}
 

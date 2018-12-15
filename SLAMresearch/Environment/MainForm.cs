@@ -12,6 +12,9 @@ using System.Windows.Forms;
 
 namespace Environment
 {
+	/// <summary>
+	/// 主程序界面
+	/// </summary>
 	public partial class MainForm : Form
 	{
 		public List<PointF> keypoints = new List<PointF>();

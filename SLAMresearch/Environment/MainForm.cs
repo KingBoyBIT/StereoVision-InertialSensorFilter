@@ -129,6 +129,13 @@ namespace Environment
 					#endregion
 					PointF pt = new PointF(e.X, e.Y);
 					keypoints.Add(pt);
+					this.KeyPointsList.Items.Clear();
+					for (int i = 0; i < keypoints.Count; i++)
+					{
+						string str = "定位点 " + i.ToString() + " " + keypoints[i].X + "," + keypoints[i].Y;
+						this.KeyPointsList.Items.Add(str);
+					}
+					
 					Graphics g = this.MapPictureBox.CreateGraphics();
 					Pen p = new Pen(Color.Red, 1);
 					//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);

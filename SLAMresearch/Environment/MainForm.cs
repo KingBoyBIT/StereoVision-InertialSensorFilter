@@ -117,7 +117,7 @@ namespace Environment
 				else if (this.DrawSelect.GetItemCheckState(3) == CheckState.Checked
 								&& this.DrawSelect.GetItemCheckState(4) == CheckState.Unchecked)//设置关键点
 				{
-					
+
 					PointF pt = new PointF(e.X, e.Y);
 					keypoints.Add(pt);
 					Graphics g = this.MapPictureBox.CreateGraphics();
@@ -127,14 +127,14 @@ namespace Environment
 					g.FillRectangle(b, e.X - size / 2, e.Y - size / 2, size, size);
 
 					Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
-				} 
+				}
 				#endregion
 			}
 			#endregion
 			#region 右键事件
 			else if (e.Button == MouseButtons.Right)
 			{
-
+				Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
 			}
 			#endregion
 			#region 其他事件
@@ -198,6 +198,16 @@ namespace Environment
 				}
 			}
 		}
-	
+
+		private void 路标点ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//获取该位置的keypoints
+			//keypoints.IndexOf()
+		}
+
+		private void MapPictureBox_MouseClick(object sender, MouseEventArgs e)
+		{
+
+		}
 	}
 }

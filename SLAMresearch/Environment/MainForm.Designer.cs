@@ -31,11 +31,14 @@
 			this.components = new System.ComponentModel.Container();
 			this.MapGenBtn = new System.Windows.Forms.Button();
 			this.MapPictureBox = new System.Windows.Forms.PictureBox();
-			this.DrawSelect = new System.Windows.Forms.CheckedListBox();
-			this.Rec_text = new System.Windows.Forms.TextBox();
 			this.MapContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.标记为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.路标点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.DrawSelect = new System.Windows.Forms.CheckedListBox();
+			this.Rec_text = new System.Windows.Forms.TextBox();
+			this.障碍点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.导航路标点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.估计路标点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.MapContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -59,8 +62,34 @@
 			this.MapPictureBox.TabIndex = 1;
 			this.MapPictureBox.TabStop = false;
 			this.MapPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.MapPictureBox_Paint);
+			this.MapPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MapPictureBox_MouseClick);
 			this.MapPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MapPictureBox_MouseDown);
 			this.MapPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapPictureBox_MouseMove);
+			// 
+			// MapContextMenuStrip
+			// 
+			this.MapContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.标记为ToolStripMenuItem});
+			this.MapContextMenuStrip.Name = "MapContextMenuStrip";
+			this.MapContextMenuStrip.Size = new System.Drawing.Size(113, 26);
+			// 
+			// 标记为ToolStripMenuItem
+			// 
+			this.标记为ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.路标点ToolStripMenuItem,
+            this.障碍点ToolStripMenuItem,
+            this.导航路标点ToolStripMenuItem,
+            this.估计路标点ToolStripMenuItem});
+			this.标记为ToolStripMenuItem.Name = "标记为ToolStripMenuItem";
+			this.标记为ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.标记为ToolStripMenuItem.Text = "标记为";
+			// 
+			// 路标点ToolStripMenuItem
+			// 
+			this.路标点ToolStripMenuItem.Name = "路标点ToolStripMenuItem";
+			this.路标点ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.路标点ToolStripMenuItem.Text = "边界点";
+			this.路标点ToolStripMenuItem.Click += new System.EventHandler(this.路标点ToolStripMenuItem_Click);
 			// 
 			// DrawSelect
 			// 
@@ -86,26 +115,23 @@
 			this.Rec_text.Size = new System.Drawing.Size(356, 244);
 			this.Rec_text.TabIndex = 3;
 			// 
-			// MapContextMenuStrip
+			// 障碍点ToolStripMenuItem
 			// 
-			this.MapContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.标记为ToolStripMenuItem});
-			this.MapContextMenuStrip.Name = "MapContextMenuStrip";
-			this.MapContextMenuStrip.Size = new System.Drawing.Size(113, 26);
+			this.障碍点ToolStripMenuItem.Name = "障碍点ToolStripMenuItem";
+			this.障碍点ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.障碍点ToolStripMenuItem.Text = "障碍点";
 			// 
-			// 标记为ToolStripMenuItem
+			// 导航路标点ToolStripMenuItem
 			// 
-			this.标记为ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.路标点ToolStripMenuItem});
-			this.标记为ToolStripMenuItem.Name = "标记为ToolStripMenuItem";
-			this.标记为ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.标记为ToolStripMenuItem.Text = "标记为";
+			this.导航路标点ToolStripMenuItem.Name = "导航路标点ToolStripMenuItem";
+			this.导航路标点ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.导航路标点ToolStripMenuItem.Text = "导航路标点";
 			// 
-			// 路标点ToolStripMenuItem
+			// 估计路标点ToolStripMenuItem
 			// 
-			this.路标点ToolStripMenuItem.Name = "路标点ToolStripMenuItem";
-			this.路标点ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.路标点ToolStripMenuItem.Text = "路标点";
+			this.估计路标点ToolStripMenuItem.Name = "估计路标点ToolStripMenuItem";
+			this.估计路标点ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.估计路标点ToolStripMenuItem.Text = "估计路标点";
 			// 
 			// MainForm
 			// 
@@ -135,6 +161,9 @@
 		private System.Windows.Forms.ContextMenuStrip MapContextMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem 标记为ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 路标点ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 障碍点ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 导航路标点ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 估计路标点ToolStripMenuItem;
 	}
 }
 

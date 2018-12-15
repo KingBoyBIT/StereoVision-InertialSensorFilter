@@ -44,5 +44,7 @@ namespace Environment
 			Point centerP = new Point(0, 0);
 			MoveMouseToPoint(centerP);
 		}
+
+		
 	}
 }

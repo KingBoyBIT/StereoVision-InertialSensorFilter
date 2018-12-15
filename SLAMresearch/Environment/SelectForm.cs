@@ -21,11 +21,11 @@ namespace Environment
 			this.mf = mform;
 			del = this.mf.delete_pt_idx;
 			//添加列表
-			List<PointF> delptflst = new List<PointF>();
+			List<MapKeyPoint> delptflst = new List<MapKeyPoint>();
 			for (int i = 0; i < del.Count; i++)
 			{
-				delptflst.Add(this.mf.keypoints[del[i]]);
-				string str = "point:" + this.mf.keypoints[del[i]].X.ToString() + "," + this.mf.keypoints[del[i]].Y.ToString();
+				delptflst.Add(this.mf.Posptlst[del[i]]);
+				string str = "point:" + this.mf.Posptlst[del[i]].p.X.ToString() + "," + this.mf.Posptlst[del[i]].p.Y.ToString();
 				this.checkedListBox1.Items.Add(str, false);
 			}
 			//绘制局部大图

@@ -40,8 +40,17 @@
 			this.DrawSelect = new System.Windows.Forms.CheckedListBox();
 			this.Rec_text = new System.Windows.Forms.TextBox();
 			this.KeyPointsList = new System.Windows.Forms.CheckedListBox();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.mouse_pos_label = new System.Windows.Forms.Label();
+			this.GridcheckBox = new System.Windows.Forms.CheckBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.GridSizetextBox = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.MapContextMenuStrip.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.tabPage1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MapGenBtn
@@ -128,7 +137,7 @@
 			// 
 			// Rec_text
 			// 
-			this.Rec_text.Location = new System.Drawing.Point(584, 267);
+			this.Rec_text.Location = new System.Drawing.Point(584, 103);
 			this.Rec_text.Multiline = true;
 			this.Rec_text.Name = "Rec_text";
 			this.Rec_text.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -140,20 +149,92 @@
 			// 
 			this.KeyPointsList.CheckOnClick = true;
 			this.KeyPointsList.FormattingEnabled = true;
-			this.KeyPointsList.Location = new System.Drawing.Point(94, 12);
+			this.KeyPointsList.Location = new System.Drawing.Point(6, 6);
 			this.KeyPointsList.Name = "KeyPointsList";
 			this.KeyPointsList.ScrollAlwaysVisible = true;
 			this.KeyPointsList.Size = new System.Drawing.Size(195, 196);
 			this.KeyPointsList.TabIndex = 2;
 			this.KeyPointsList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.DrawSelect_ItemCheck);
 			// 
+			// tabControl1
+			// 
+			this.tabControl1.Controls.Add(this.tabPage1);
+			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Location = new System.Drawing.Point(94, 12);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(484, 499);
+			this.tabControl1.TabIndex = 4;
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Controls.Add(this.KeyPointsList);
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(476, 473);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "定位点管理";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(476, 473);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "边界管理";
+			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// mouse_pos_label
+			// 
+			this.mouse_pos_label.AutoSize = true;
+			this.mouse_pos_label.Location = new System.Drawing.Point(584, 350);
+			this.mouse_pos_label.Name = "mouse_pos_label";
+			this.mouse_pos_label.Size = new System.Drawing.Size(65, 12);
+			this.mouse_pos_label.TabIndex = 5;
+			this.mouse_pos_label.Text = "鼠标坐标：";
+			// 
+			// GridcheckBox
+			// 
+			this.GridcheckBox.AutoSize = true;
+			this.GridcheckBox.Location = new System.Drawing.Point(584, 365);
+			this.GridcheckBox.Name = "GridcheckBox";
+			this.GridcheckBox.Size = new System.Drawing.Size(60, 16);
+			this.GridcheckBox.TabIndex = 6;
+			this.GridcheckBox.Text = "栅格化";
+			this.GridcheckBox.UseVisualStyleBackColor = true;
+			this.GridcheckBox.CheckStateChanged += new System.EventHandler(this.GridcheckBox_CheckStateChanged);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(650, 366);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(29, 12);
+			this.label1.TabIndex = 7;
+			this.label1.Text = "间距";
+			// 
+			// GridSizetextBox
+			// 
+			this.GridSizetextBox.Location = new System.Drawing.Point(685, 363);
+			this.GridSizetextBox.Name = "GridSizetextBox";
+			this.GridSizetextBox.Size = new System.Drawing.Size(94, 21);
+			this.GridSizetextBox.TabIndex = 8;
+			this.GridSizetextBox.Text = "10";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1297, 523);
+			this.Controls.Add(this.GridSizetextBox);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.GridcheckBox);
+			this.Controls.Add(this.mouse_pos_label);
+			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.Rec_text);
-			this.Controls.Add(this.KeyPointsList);
 			this.Controls.Add(this.DrawSelect);
 			this.Controls.Add(this.MapPictureBox);
 			this.Controls.Add(this.MapGenBtn);
@@ -162,6 +243,8 @@
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).EndInit();
 			this.MapContextMenuStrip.ResumeLayout(false);
+			this.tabControl1.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -180,6 +263,13 @@
 		private System.Windows.Forms.ToolStripMenuItem 导航路标点ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 估计路标点ToolStripMenuItem;
 		private System.Windows.Forms.CheckedListBox KeyPointsList;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.Label mouse_pos_label;
+		private System.Windows.Forms.CheckBox GridcheckBox;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox GridSizetextBox;
 	}
 }
 

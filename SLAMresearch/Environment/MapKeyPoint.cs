@@ -15,6 +15,8 @@ namespace Environment
 			障碍边界点,
 			导航路标点,
 			路径路标点,
+			定位点,
+			NULL
 		}
 		public ptype t;
 		public PointF p;
@@ -28,6 +30,11 @@ namespace Environment
 		{
 			this.p = p;
 			this.t = t;
+		}
+		public static double PtDis(Point a,Point b)
+		{
+			double dis = Math.Sqrt(Math.Pow((a.X - b.X), 2) + Math.Pow((a.Y - b.Y), 2));
+			return dis;
 		}
 	}
 }

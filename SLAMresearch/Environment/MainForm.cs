@@ -18,13 +18,16 @@ namespace Environment
 	/// </summary>
 	public partial class MainForm : Form
 	{
+		
 		MouseOpr mo;//控制鼠标范围
 		bool paint = false;//是否跟随鼠标绘制
 		int size = 4;
-		int snapsize = 10;
-		public List<PointF> keypoints = new List<PointF>();
-		public List<int> delete_pt_idx = new List<int>();
-
+		int snapsize = 6;
+		bool snapupdate = true;
+		Point presnappt;
+		public List<MapKeyPoint> Posptlst = new List<MapKeyPoint>();
+		public List<int> delete_pt_idx = new List<int>();//距离近的被删除点列表
+		bool gridon = false;
 		public MainForm()
 		{
 			InitializeComponent();
@@ -55,6 +58,8 @@ namespace Environment
 		{
 			this.Rec_text.Text = "操作记录：\r\n";
 			this.DrawSelect.SetItemCheckState(3, CheckState.Checked);//默认设置关键点
+
+			this.GridcheckBox.CheckState = CheckState.Checked;
 		}
 		/// <summary>
 		/// 单点
@@ -74,11 +79,11 @@ namespace Environment
 					PointF pf = new PointF(e.X, e.Y);
 					int width = 10;
 					int height = 10;
-					for (int i = 0; i < keypoints.Count; i++)
+					for (int i = 0; i < Posptlst.Count; i++)
 					{
-						for (int x = (int)keypoints[i].X - Width; x < (int)keypoints[i].X + width; x++)
+						for (int x = (int)Posptlst[i].p.X - Width; x < (int)Posptlst[i].p.X + width; x++)
 						{
-							for (int y = (int)keypoints[i].Y - height; y < (int)keypoints[i].Y + height; y++)
+							for (int y = (int)Posptlst[i].p.Y - height; y < (int)Posptlst[i].p.Y + height; y++)
 							{
 								if (x == e.X && y == e.Y)
 								{
@@ -90,14 +95,16 @@ namespace Environment
 					//remove point and draw again
 					if (delete_pt_idx.Count == 1)//一次删除一个点
 					{
-						PointF pfd = keypoints[delete_pt_idx[0]];
-						keypoints.RemoveAt(delete_pt_idx[0]);
+						MapKeyPoint pfd = Posptlst[delete_pt_idx[0]];
+
+						Posptlst.RemoveAt(delete_pt_idx[0]);
+						reportUI(Posptlst, MapKeyPoint.ptype.定位点);
 
 						Graphics g = this.MapPictureBox.CreateGraphics();
 						Pen p = new Pen(Color.White, 1);
 						//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
 						Brush b = new SolidBrush(Color.White);
-						g.FillRectangle(b, pfd.X - size / 2, pfd.Y - size / 2, size, size);
+						g.FillRectangle(b, pfd.p.X - size / 2, pfd.p.Y - size / 2, size, size);
 						delete_pt_idx.Clear();
 					}
 					else if (delete_pt_idx.Count > 1)//附近有多个点
@@ -118,9 +125,9 @@ namespace Environment
 								&& this.DrawSelect.GetItemCheckState(4) == CheckState.Unchecked)//设置关键点
 				{
 					#region 去重
-					foreach (PointF item in keypoints)
+					foreach (MapKeyPoint item in Posptlst)
 					{
-						if (item.X==e.X&&item.Y==e.Y)
+						if (item.p.X==e.X&&item.p.Y==e.Y)
 						{
 							Rec_text.AppendText("该点重复！\r\n");
 							return;
@@ -128,16 +135,13 @@ namespace Environment
 					}
 					#endregion
 					PointF pt = new PointF(e.X, e.Y);
-					keypoints.Add(pt);
-					this.KeyPointsList.Items.Clear();
-					for (int i = 0; i < keypoints.Count; i++)
-					{
-						string str = "定位点 " + i.ToString() + " " + keypoints[i].X + "," + keypoints[i].Y;
-						this.KeyPointsList.Items.Add(str);
-					}
+					MapKeyPoint p = new MapKeyPoint(pt, MapKeyPoint.ptype.定位点);
+					Posptlst.Add(p);
+					reportUI(Posptlst, p.t);
+					
 					
 					Graphics g = this.MapPictureBox.CreateGraphics();
-					Pen p = new Pen(Color.Red, 1);
+					//Pen pen = new Pen(Color.Red, 1);
 					//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
 					Brush b = new SolidBrush(Color.Red);
 					g.FillRectangle(b, e.X - size / 2, e.Y - size / 2, size, size);
@@ -160,7 +164,37 @@ namespace Environment
 			}
 			#endregion
 		}
-
+		/// <summary>
+		/// 更新界面列表
+		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="t"></param>
+		private void reportUI(List<MapKeyPoint> s,MapKeyPoint.ptype t)
+		{
+			switch (t)
+			{
+				case MapKeyPoint.ptype.地形边界点:
+					break;
+				case MapKeyPoint.ptype.障碍边界点:
+					break;
+				case MapKeyPoint.ptype.导航路标点:
+					break;
+				case MapKeyPoint.ptype.路径路标点:
+					break;
+				case MapKeyPoint.ptype.定位点:
+					this.KeyPointsList.Items.Clear();
+					for (int i = 0; i < s.Count; i++)
+					{
+						string str = "定位点 " + i.ToString() + " " + s[i].p.X + "," + s[i].p.Y;
+						this.KeyPointsList.Items.Add(str);
+					}
+					break;
+				case MapKeyPoint.ptype.NULL:
+					break;
+				default:
+					break;
+			}
+		}
 		private void MapPictureBox_Paint(object sender, PaintEventArgs e)
 		{
 			Graphics g = e.Graphics; //创建画板,这里的画板是由Form提供的.
@@ -199,19 +233,65 @@ namespace Environment
 		/// <param name="e"></param>
 		private void MapPictureBox_MouseMove(object sender, MouseEventArgs e)
 		{
+			//snapupdate = false;
 			//Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
-			for (int i = 0; i < keypoints.Count; i++)
+			this.mouse_pos_label.Text = "鼠标坐标：" + e.X.ToString() + " " + e.Y.ToString();
+			for (int i = 0; i < Posptlst.Count; i++)
 			{
-				if (keypoints[i].X - snapsize / 2 < e.X &&
-					keypoints[i].X + snapsize / 2 > e.X &&
-					keypoints[i].Y - snapsize / 2 < e.Y &&
-					keypoints[i].Y + snapsize / 2 > e.Y &&
+				if (Posptlst[i].p.X - snapsize / 2 < e.X &&
+					Posptlst[i].p.X + snapsize / 2 > e.X &&
+					Posptlst[i].p.Y - snapsize / 2 < e.Y &&
+					Posptlst[i].p.Y + snapsize / 2 > e.Y &&
 					mo.globMoCtx < snapsize
 					)
 				{
-					mo.MoveMouseToPoint(this.MapPictureBox.PointToScreen(new Point((int)keypoints[i].X, (int)keypoints[i].Y)));
+					mo.MoveMouseToPoint(this.MapPictureBox.PointToScreen(new Point((int)Posptlst[i].p.X, (int)Posptlst[i].p.Y)));
 					break;
 				}
+			}
+			if (gridon == true)//开启栅格化坐标
+			{
+				int gridsize = Convert.ToInt32(GridSizetextBox.Text);
+				Point plt = new Point((int)(e.X / gridsize * gridsize), (int)((e.Y / gridsize * gridsize)));
+				Point plb = new Point((int)(e.X / gridsize * gridsize), (int)(((e.Y / gridsize+1) * gridsize)));
+				Point prt = new Point((int)((e.X / gridsize+1) * gridsize), (int)((e.Y / gridsize * gridsize)));
+				Point prb = new Point((int)((e.X / gridsize+1) * gridsize), (int)(((e.Y / gridsize+1) * gridsize)));
+				List<Point> PPlst = new List<Point>();
+				PPlst.Add(plt);
+				PPlst.Add(plb);
+				PPlst.Add(prt);
+				PPlst.Add(prb);
+				Point cp = new Point(e.X, e.Y);
+				double dis = MapKeyPoint.PtDis(cp, PPlst[0]);
+				int pct = 0;
+				for (int i = 0; i < PPlst.Count; i++)
+				{
+					double tmpdis = MapKeyPoint.PtDis(cp, PPlst[i]);
+					if (tmpdis<dis)
+					{
+						dis = tmpdis;
+						pct = i;
+					}
+				}
+				if (dis <= snapsize
+					&& !(PPlst[pct].X == presnappt.X && PPlst[pct].Y == presnappt.Y)
+					)
+				{
+					mo.MoveMouseToPoint(this.MapPictureBox.PointToScreen(PPlst[pct]));
+					presnappt = PPlst[pct];
+					//if (snapupdate == false)
+					//{
+					//	snapupdate = true;
+					//}
+					//else
+					{
+						snapupdate = false;
+					}
+				}
+				//else
+				//{
+				//	snapupdate = true;
+				//}
 			}
 		}
 
@@ -224,6 +304,18 @@ namespace Environment
 		private void MapPictureBox_MouseClick(object sender, MouseEventArgs e)
 		{
 
+		}
+
+		private void GridcheckBox_CheckStateChanged(object sender, EventArgs e)
+		{
+			if (this.GridcheckBox.CheckState==CheckState.Checked)
+			{
+				gridon = true;
+			}
+			else
+			{
+				gridon = false;
+			}
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace Environment
 		MouseOpr mo;//控制鼠标范围
 		bool paint = false;//是否跟随鼠标绘制
 		int size = 4;
-		int snapsize = 6;
+		int snapsize = 4;
 		bool snapupdate = true;
 		Point presnappt;
 		public List<MapKeyPoint> Posptlst = new List<MapKeyPoint>();
@@ -59,7 +59,7 @@ namespace Environment
 			this.Rec_text.Text = "操作记录：\r\n";
 			this.DrawSelect.SetItemCheckState(3, CheckState.Checked);//默认设置关键点
 
-			this.GridcheckBox.CheckState = CheckState.Checked;
+			this.GridcheckBox.CheckState = CheckState.Unchecked;
 		}
 		/// <summary>
 		/// 单点
@@ -110,7 +110,26 @@ namespace Environment
 					else if (delete_pt_idx.Count > 1)//附近有多个点
 					{
 						SelectForm sf = new SelectForm(this);
+						sf.Owner = this;
 						sf.ShowDialog();
+						int ct = 0;
+						while (ct<Posptlst.Count)
+						{
+							if (Posptlst[ct].t == MapKeyPoint.ptype.NULL)
+							{
+								Graphics g = this.MapPictureBox.CreateGraphics();
+								Pen p = new Pen(Color.White, 1);
+								//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
+								Brush b = new SolidBrush(Color.White);
+								g.FillRectangle(b, Posptlst[ct].p.X - size / 2, Posptlst[ct].p.Y - size / 2, size, size);
+								Posptlst.Remove(Posptlst[ct]);
+								ct = 0;
+							}
+							ct++;
+						}
+						reportUI(Posptlst, MapKeyPoint.ptype.定位点);
+
+						
 
 						delete_pt_idx.Clear();
 					}
@@ -238,15 +257,15 @@ namespace Environment
 			this.mouse_pos_label.Text = "鼠标坐标：" + e.X.ToString() + " " + e.Y.ToString();
 			for (int i = 0; i < Posptlst.Count; i++)
 			{
-				if (Posptlst[i].p.X - snapsize / 2 < e.X &&
-					Posptlst[i].p.X + snapsize / 2 > e.X &&
-					Posptlst[i].p.Y - snapsize / 2 < e.Y &&
-					Posptlst[i].p.Y + snapsize / 2 > e.Y &&
+				if (Posptlst[i].p.X - snapsize / 2.0 < e.X &&
+					Posptlst[i].p.X + snapsize / 2.0 > e.X &&
+					Posptlst[i].p.Y - snapsize / 2.0 < e.Y &&
+					Posptlst[i].p.Y + snapsize / 2.0 > e.Y &&
 					mo.globMoCtx < snapsize
 					)
 				{
 					mo.MoveMouseToPoint(this.MapPictureBox.PointToScreen(new Point((int)Posptlst[i].p.X, (int)Posptlst[i].p.Y)));
-					break;
+					return;
 				}
 			}
 			if (gridon == true)//开启栅格化坐标
@@ -274,7 +293,7 @@ namespace Environment
 					}
 				}
 				if (dis <= snapsize
-					&& !(PPlst[pct].X == presnappt.X && PPlst[pct].Y == presnappt.Y)
+					//&& !(PPlst[pct].X == presnappt.X && PPlst[pct].Y == presnappt.Y)
 					)
 				{
 					mo.MoveMouseToPoint(this.MapPictureBox.PointToScreen(PPlst[pct]));

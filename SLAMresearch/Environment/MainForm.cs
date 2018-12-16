@@ -203,11 +203,11 @@ namespace Environment
 				case MapKeyPoint.ptype.路径路标点:
 					break;
 				case MapKeyPoint.ptype.定位点:
-					this.KeyPointsList.Items.Clear();
+					this.PosPointsList.Items.Clear();
 					for (int i = 0; i < s.Count; i++)
 					{
 						string str = "定位点 " + i.ToString() + " " + s[i].p.X + "," + s[i].p.Y;
-						this.KeyPointsList.Items.Add(str);
+						this.PosPointsList.Items.Add(str);
 					}
 					break;
 				case MapKeyPoint.ptype.NULL:
@@ -325,18 +325,6 @@ namespace Environment
 			}
 		}
 
-		private void 路标点ToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (curRightPoint!=null)
-			{
-				
-			}
-			else
-			{
-				MessageBox.Show("未找到定位点！");
-			}
-		}
-
 		private void MapPictureBox_MouseClick(object sender, MouseEventArgs e)
 		{
 
@@ -371,6 +359,24 @@ namespace Environment
 			if (findflag==false)
 			{
 				MessageBox.Show("未找到需要删除的定位点！");
+			}
+		}
+		
+		private void 地形边界点ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (curRightPoint != null)
+			{
+				foreach (MapKeyPoint item in Posptlst)
+				{
+					if (item == curRightPoint)
+					{
+						item.t = MapKeyPoint.ptype.地形边界点;
+					}
+				}
+			}
+			else
+			{
+				MessageBox.Show("未找到定位点！");
 			}
 		}
 	}

@@ -33,17 +33,19 @@
 			this.MapPictureBox = new System.Windows.Forms.PictureBox();
 			this.MapContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.标记为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.路标点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.障碍点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.地形边界点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.障碍边界点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.导航路标点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.估计路标点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.路径路标点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.定位点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.DrawSelect = new System.Windows.Forms.CheckedListBox();
 			this.Rec_text = new System.Windows.Forms.TextBox();
-			this.KeyPointsList = new System.Windows.Forms.CheckedListBox();
+			this.PosPointsList = new System.Windows.Forms.CheckedListBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.EdgePointsList = new System.Windows.Forms.CheckedListBox();
 			this.mouse_pos_label = new System.Windows.Forms.Label();
 			this.GridcheckBox = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -52,6 +54,7 @@
 			this.MapContextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
+			this.tabPage2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MapGenBtn
@@ -88,26 +91,27 @@
 			// 标记为ToolStripMenuItem
 			// 
 			this.标记为ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.路标点ToolStripMenuItem,
-            this.障碍点ToolStripMenuItem,
+            this.地形边界点ToolStripMenuItem,
+            this.障碍边界点ToolStripMenuItem,
             this.导航路标点ToolStripMenuItem,
-            this.估计路标点ToolStripMenuItem});
+            this.路径路标点ToolStripMenuItem,
+            this.定位点ToolStripMenuItem});
 			this.标记为ToolStripMenuItem.Name = "标记为ToolStripMenuItem";
-			this.标记为ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.标记为ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
 			this.标记为ToolStripMenuItem.Text = "标记为";
 			// 
-			// 路标点ToolStripMenuItem
+			// 地形边界点ToolStripMenuItem
 			// 
-			this.路标点ToolStripMenuItem.Name = "路标点ToolStripMenuItem";
-			this.路标点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-			this.路标点ToolStripMenuItem.Text = "边界点";
-			this.路标点ToolStripMenuItem.Click += new System.EventHandler(this.路标点ToolStripMenuItem_Click);
+			this.地形边界点ToolStripMenuItem.Name = "地形边界点ToolStripMenuItem";
+			this.地形边界点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.地形边界点ToolStripMenuItem.Text = "地形边界点";
+			this.地形边界点ToolStripMenuItem.Click += new System.EventHandler(this.地形边界点ToolStripMenuItem_Click);
 			// 
-			// 障碍点ToolStripMenuItem
+			// 障碍边界点ToolStripMenuItem
 			// 
-			this.障碍点ToolStripMenuItem.Name = "障碍点ToolStripMenuItem";
-			this.障碍点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-			this.障碍点ToolStripMenuItem.Text = "障碍点";
+			this.障碍边界点ToolStripMenuItem.Name = "障碍边界点ToolStripMenuItem";
+			this.障碍边界点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.障碍边界点ToolStripMenuItem.Text = "障碍边界点";
 			// 
 			// 导航路标点ToolStripMenuItem
 			// 
@@ -115,16 +119,22 @@
 			this.导航路标点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.导航路标点ToolStripMenuItem.Text = "导航路标点";
 			// 
-			// 估计路标点ToolStripMenuItem
+			// 路径路标点ToolStripMenuItem
 			// 
-			this.估计路标点ToolStripMenuItem.Name = "估计路标点ToolStripMenuItem";
-			this.估计路标点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-			this.估计路标点ToolStripMenuItem.Text = "估计路标点";
+			this.路径路标点ToolStripMenuItem.Name = "路径路标点ToolStripMenuItem";
+			this.路径路标点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.路径路标点ToolStripMenuItem.Text = "路径路标点";
+			// 
+			// 定位点ToolStripMenuItem
+			// 
+			this.定位点ToolStripMenuItem.Name = "定位点ToolStripMenuItem";
+			this.定位点ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.定位点ToolStripMenuItem.Text = "定位点";
 			// 
 			// 删除ToolStripMenuItem
 			// 
 			this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-			this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.删除ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
 			this.删除ToolStripMenuItem.Text = "删除";
 			this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
 			// 
@@ -154,16 +164,16 @@
 			this.Rec_text.TabIndex = 3;
 			this.Rec_text.WordWrap = false;
 			// 
-			// KeyPointsList
+			// PosPointsList
 			// 
-			this.KeyPointsList.CheckOnClick = true;
-			this.KeyPointsList.FormattingEnabled = true;
-			this.KeyPointsList.Location = new System.Drawing.Point(6, 6);
-			this.KeyPointsList.Name = "KeyPointsList";
-			this.KeyPointsList.ScrollAlwaysVisible = true;
-			this.KeyPointsList.Size = new System.Drawing.Size(195, 196);
-			this.KeyPointsList.TabIndex = 2;
-			this.KeyPointsList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.DrawSelect_ItemCheck);
+			this.PosPointsList.CheckOnClick = true;
+			this.PosPointsList.FormattingEnabled = true;
+			this.PosPointsList.Location = new System.Drawing.Point(6, 6);
+			this.PosPointsList.Name = "PosPointsList";
+			this.PosPointsList.ScrollAlwaysVisible = true;
+			this.PosPointsList.Size = new System.Drawing.Size(195, 196);
+			this.PosPointsList.TabIndex = 2;
+			this.PosPointsList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.DrawSelect_ItemCheck);
 			// 
 			// tabControl1
 			// 
@@ -177,7 +187,7 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.KeyPointsList);
+			this.tabPage1.Controls.Add(this.PosPointsList);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -188,6 +198,7 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.EdgePointsList);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -195,6 +206,16 @@
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "边界管理";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// EdgePointsList
+			// 
+			this.EdgePointsList.CheckOnClick = true;
+			this.EdgePointsList.FormattingEnabled = true;
+			this.EdgePointsList.Location = new System.Drawing.Point(6, 6);
+			this.EdgePointsList.Name = "EdgePointsList";
+			this.EdgePointsList.ScrollAlwaysVisible = true;
+			this.EdgePointsList.Size = new System.Drawing.Size(195, 196);
+			this.EdgePointsList.TabIndex = 3;
 			// 
 			// mouse_pos_label
 			// 
@@ -254,6 +275,7 @@
 			this.MapContextMenuStrip.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
+			this.tabPage2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -267,11 +289,11 @@
 		private System.Windows.Forms.TextBox Rec_text;
 		private System.Windows.Forms.ContextMenuStrip MapContextMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem 标记为ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 路标点ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 障碍点ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 地形边界点ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 障碍边界点ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 导航路标点ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 估计路标点ToolStripMenuItem;
-		private System.Windows.Forms.CheckedListBox KeyPointsList;
+		private System.Windows.Forms.ToolStripMenuItem 路径路标点ToolStripMenuItem;
+		private System.Windows.Forms.CheckedListBox PosPointsList;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
@@ -280,6 +302,8 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox GridSizetextBox;
 		private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 定位点ToolStripMenuItem;
+		private System.Windows.Forms.CheckedListBox EdgePointsList;
 	}
 }
 

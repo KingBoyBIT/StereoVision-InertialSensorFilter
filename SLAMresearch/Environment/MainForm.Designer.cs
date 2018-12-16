@@ -214,7 +214,7 @@
 			this.EdgePointsList.Location = new System.Drawing.Point(6, 6);
 			this.EdgePointsList.Name = "EdgePointsList";
 			this.EdgePointsList.ScrollAlwaysVisible = true;
-			this.EdgePointsList.Size = new System.Drawing.Size(195, 196);
+			this.EdgePointsList.Size = new System.Drawing.Size(200, 180);
 			this.EdgePointsList.TabIndex = 3;
 			// 
 			// mouse_pos_label

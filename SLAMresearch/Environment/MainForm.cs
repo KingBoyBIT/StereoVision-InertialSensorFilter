@@ -146,14 +146,7 @@ namespace Environment
 					MapKeyPoint p = new MapKeyPoint(pt, MapKeyPoint.ptype.定位点);
 					Posptlst.Add(p);
 					reportUI(Posptlst, p.t);
-
-
-					Graphics g = this.MapPictureBox.CreateGraphics();
-					//Pen pen = new Pen(Color.Red, 1);
-					//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
-					Brush b = new SolidBrush(Color.Red);
-					g.FillRectangle(b, e.X - size / 2, e.Y - size / 2, size, size);
-
+					add1point(p);
 					Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
 				}
 				#endregion
@@ -195,6 +188,15 @@ namespace Environment
 			switch (t)
 			{
 				case MapKeyPoint.ptype.地形边界点:
+					this.EdgePointsList.Items.Clear();
+					for (int i = 0; i < s.Count; i++)
+					{
+						if (s[i].t == MapKeyPoint.ptype.地形边界点)
+						{
+							string str = "地形边界点 " + i.ToString() + " " + s[i].p.X + "," + s[i].p.Y;
+							this.EdgePointsList.Items.Add(str);
+						}
+					}
 					break;
 				case MapKeyPoint.ptype.障碍边界点:
 					break;
@@ -206,8 +208,11 @@ namespace Environment
 					this.PosPointsList.Items.Clear();
 					for (int i = 0; i < s.Count; i++)
 					{
-						string str = "定位点 " + i.ToString() + " " + s[i].p.X + "," + s[i].p.Y;
-						this.PosPointsList.Items.Add(str);
+						if (s[i].t == MapKeyPoint.ptype.定位点)
+						{
+							string str = "定位点 " + i.ToString() + " " + s[i].p.X + "," + s[i].p.Y;
+							this.PosPointsList.Items.Add(str);
+						}
 					}
 					break;
 				case MapKeyPoint.ptype.NULL:
@@ -216,7 +221,46 @@ namespace Environment
 					break;
 			}
 		}
-
+		/// <summary>
+		/// 增加一个定位点
+		/// </summary>
+		/// <param name="pfd"></param>
+		private void add1point(MapKeyPoint pfd)
+		{
+			Graphics g = this.MapPictureBox.CreateGraphics();
+			//Pen p = new Pen(Color.White, 1);
+			//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
+			Brush b;
+			switch (pfd.t)
+			{
+				case MapKeyPoint.ptype.地形边界点:
+					b = new SolidBrush(Color.Blue);
+					break;
+				case MapKeyPoint.ptype.障碍边界点:
+					b = new SolidBrush(Color.AliceBlue);
+					break;
+				case MapKeyPoint.ptype.导航路标点:
+					b = new SolidBrush(Color.Green);
+					break;
+				case MapKeyPoint.ptype.路径路标点:
+					b = new SolidBrush(Color.YellowGreen);
+					break;
+				case MapKeyPoint.ptype.定位点:
+					b = new SolidBrush(Color.Red);
+					break;
+				case MapKeyPoint.ptype.NULL:
+					b = new SolidBrush(Color.White);
+					break;
+				default:
+					b = new SolidBrush(Color.White);
+					break;
+			}
+			g.FillRectangle(b, pfd.p.X - size / 2, pfd.p.Y - size / 2, size, size);
+		}
+		/// <summary>
+		/// 删除一个定位点
+		/// </summary>
+		/// <param name="pfd"></param>
 		private void clear1point(MapKeyPoint pfd)
 		{
 			Graphics g = this.MapPictureBox.CreateGraphics();
@@ -225,6 +269,11 @@ namespace Environment
 			Brush b = new SolidBrush(Color.White);
 			g.FillRectangle(b, pfd.p.X - size / 2, pfd.p.Y - size / 2, size, size);
 		}
+		/// <summary>
+		/// 初始化地图画布
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void MapPictureBox_Paint(object sender, PaintEventArgs e)
 		{
 			Graphics g = e.Graphics; //创建画板,这里的画板是由Form提供的.
@@ -371,6 +420,8 @@ namespace Environment
 					if (item == curRightPoint)
 					{
 						item.t = MapKeyPoint.ptype.地形边界点;
+						add1point(item);
+						reportUI(Posptlst, MapKeyPoint.ptype.地形边界点);
 					}
 				}
 			}

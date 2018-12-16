@@ -204,7 +204,7 @@
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage2.Size = new System.Drawing.Size(476, 473);
 			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "边界管理";
+			this.tabPage2.Text = "边界点管理";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
 			// EdgePointsList

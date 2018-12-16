@@ -20,11 +20,12 @@ namespace Environment
 	{
 		
 		MouseOpr mo;//控制鼠标范围
-		bool paint = false;//是否跟随鼠标绘制
+		//bool paint = false;//是否跟随鼠标绘制
 		int size = 4;
 		int snapsize = 4;
-		bool snapupdate = true;
-		Point presnappt;
+		//bool snapupdate = true;
+		//Point presnappt;
+		MapKeyPoint curRightPoint;
 		public List<MapKeyPoint> Posptlst = new List<MapKeyPoint>();
 		public List<int> delete_pt_idx = new List<int>();//距离近的被删除点列表
 		bool gridon = false;
@@ -74,7 +75,7 @@ namespace Environment
 			{
 				#region 删除点
 				if (this.DrawSelect.GetItemCheckState(4) == CheckState.Checked
-						&& this.DrawSelect.GetItemCheckState(3) == CheckState.Unchecked)//删除关键点
+					&& this.DrawSelect.GetItemCheckState(3) == CheckState.Unchecked)//删除关键点
 				{
 					PointF pf = new PointF(e.X, e.Y);
 					int width = 10;
@@ -99,12 +100,7 @@ namespace Environment
 
 						Posptlst.RemoveAt(delete_pt_idx[0]);
 						reportUI(Posptlst, MapKeyPoint.ptype.定位点);
-
-						Graphics g = this.MapPictureBox.CreateGraphics();
-						Pen p = new Pen(Color.White, 1);
-						//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
-						Brush b = new SolidBrush(Color.White);
-						g.FillRectangle(b, pfd.p.X - size / 2, pfd.p.Y - size / 2, size, size);
+						clear1point(pfd);
 						delete_pt_idx.Clear();
 					}
 					else if (delete_pt_idx.Count > 1)//附近有多个点
@@ -113,15 +109,11 @@ namespace Environment
 						sf.Owner = this;
 						sf.ShowDialog();
 						int ct = 0;
-						while (ct<Posptlst.Count)
+						while (ct < Posptlst.Count)
 						{
 							if (Posptlst[ct].t == MapKeyPoint.ptype.NULL)
 							{
-								Graphics g = this.MapPictureBox.CreateGraphics();
-								Pen p = new Pen(Color.White, 1);
-								//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
-								Brush b = new SolidBrush(Color.White);
-								g.FillRectangle(b, Posptlst[ct].p.X - size / 2, Posptlst[ct].p.Y - size / 2, size, size);
+								clear1point(Posptlst[ct]);
 								Posptlst.Remove(Posptlst[ct]);
 								ct = 0;
 							}
@@ -143,7 +135,7 @@ namespace Environment
 					#region 去重
 					foreach (MapKeyPoint item in Posptlst)
 					{
-						if (item.p.X==e.X&&item.p.Y==e.Y)
+						if (item.p.X == e.X && item.p.Y == e.Y)
 						{
 							Rec_text.AppendText("该点重复！\r\n");
 							return;
@@ -154,8 +146,8 @@ namespace Environment
 					MapKeyPoint p = new MapKeyPoint(pt, MapKeyPoint.ptype.定位点);
 					Posptlst.Add(p);
 					reportUI(Posptlst, p.t);
-					
-					
+
+
 					Graphics g = this.MapPictureBox.CreateGraphics();
 					//Pen pen = new Pen(Color.Red, 1);
 					//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
@@ -170,7 +162,20 @@ namespace Environment
 			#region 右键事件
 			else if (e.Button == MouseButtons.Right)
 			{
-				Rec_text.AppendText("坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
+				Rec_text.AppendText("右键坐标：" + e.X.ToString() + " " + e.Y.ToString() + "\r\n");
+				curRightPoint = null;
+				foreach (MapKeyPoint item in Posptlst)
+				{
+					if (item.p.X==e.X&&item.p.Y==e.Y)
+					{
+						curRightPoint = item;
+					}
+				}
+				if (curRightPoint==null)
+				{
+					MessageBox.Show("未找到定位点!");
+					return;
+				}
 			}
 			#endregion
 			#region 其他事件
@@ -211,6 +216,15 @@ namespace Environment
 					break;
 			}
 		}
+
+		private void clear1point(MapKeyPoint pfd)
+		{
+			Graphics g = this.MapPictureBox.CreateGraphics();
+			Pen p = new Pen(Color.White, 1);
+			//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
+			Brush b = new SolidBrush(Color.White);
+			g.FillRectangle(b, pfd.p.X - size / 2, pfd.p.Y - size / 2, size, size);
+		}
 		private void MapPictureBox_Paint(object sender, PaintEventArgs e)
 		{
 			Graphics g = e.Graphics; //创建画板,这里的画板是由Form提供的.
@@ -232,13 +246,16 @@ namespace Environment
 		private void DrawSelect_ItemCheck(object sender, ItemCheckEventArgs e)
 		{
 			//this.DrawSelect.SetItemCheckState(e.Index, e.NewValue);
-			if (e.Index == 4 && e.NewValue == CheckState.Checked)
+			for (int i = 0; i < this.DrawSelect.Items.Count; i++)
 			{
-				this.DrawSelect.SetItemCheckState(3, CheckState.Unchecked);
-			}
-			if (e.Index == 3 && e.NewValue == CheckState.Checked)
-			{
-				this.DrawSelect.SetItemCheckState(4, CheckState.Unchecked);
+				if (e.Index == i&&e.NewValue==CheckState.Unchecked)
+				{
+					this.DrawSelect.SetItemCheckState(i, CheckState.Checked);
+				}
+				else if (e.Index!=i&&this.DrawSelect.GetItemCheckState(i)==CheckState.Checked)
+				{
+					this.DrawSelect.SetItemCheckState(i, CheckState.Unchecked);
+				}
 			}
 		}
 
@@ -294,15 +311,12 @@ namespace Environment
 					)
 				{
 					mo.MoveMouseToPoint(this.MapPictureBox.PointToScreen(PPlst[pct]));
-					presnappt = PPlst[pct];
+					//presnappt = PPlst[pct];
 					//if (snapupdate == false)
 					//{
 					//	snapupdate = true;
 					//}
 					//else
-					{
-						snapupdate = false;
-					}
 				}
 				//else
 				//{
@@ -313,8 +327,14 @@ namespace Environment
 
 		private void 路标点ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//获取该位置的keypoints
-			//keypoints.IndexOf()
+			if (curRightPoint!=null)
+			{
+				
+			}
+			else
+			{
+				MessageBox.Show("未找到定位点！");
+			}
 		}
 
 		private void MapPictureBox_MouseClick(object sender, MouseEventArgs e)
@@ -331,6 +351,26 @@ namespace Environment
 			else
 			{
 				gridon = false;
+			}
+		}
+
+		private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			bool findflag = false;
+			foreach (MapKeyPoint item in Posptlst)
+			{
+				if (item==curRightPoint)
+				{
+					clear1point(item);
+					Posptlst.Remove(item);
+					reportUI(Posptlst, MapKeyPoint.ptype.定位点);
+					findflag = true;
+					break;
+				}
+			}
+			if (findflag==false)
+			{
+				MessageBox.Show("未找到需要删除的定位点！");
 			}
 		}
 	}

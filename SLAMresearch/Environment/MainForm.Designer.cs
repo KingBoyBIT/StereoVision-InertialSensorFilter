@@ -50,6 +50,8 @@
 			this.GridcheckBox = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.GridSizetextBox = new System.Windows.Forms.TextBox();
+			this.serialPort_1 = new System.IO.Ports.SerialPort(this.components);
+			this.backgroundWorkerSerial = new System.ComponentModel.BackgroundWorker();
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.MapContextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -304,6 +306,8 @@
 		private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 定位点ToolStripMenuItem;
 		private System.Windows.Forms.CheckedListBox EdgePointsList;
+		private System.IO.Ports.SerialPort serialPort_1;
+		private System.ComponentModel.BackgroundWorker backgroundWorkerSerial;
 	}
 }
 

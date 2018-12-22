@@ -430,5 +430,10 @@ namespace Environment
 				MessageBox.Show("未找到定位点！");
 			}
 		}
+
+		private void backgroundWorkerSerial_DoWork(object sender, DoWorkEventArgs e)
+		{
+
+		}
 	}
 }

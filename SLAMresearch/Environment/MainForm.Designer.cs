@@ -256,6 +256,10 @@
 			this.GridSizetextBox.TabIndex = 8;
 			this.GridSizetextBox.Text = "10";
 			// 
+			// backgroundWorkerSerial
+			// 
+			this.backgroundWorkerSerial.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerSerial_DoWork);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);

@@ -27,6 +27,7 @@ namespace Environment
 		//bool snapupdate = true;
 		//Point presnappt;
 		MapKeyPoint curRightPoint;
+		MapClass map = new MapClass();
 		public List<MapKeyPoint> Posptlst = new List<MapKeyPoint>();
 		public List<int> delete_pt_idx = new List<int>();//距离近的被删除点列表
 		bool gridon = false;
@@ -438,7 +439,7 @@ namespace Environment
 
 		}
 
-		public void WriteXml()
+		public void WriteMap()
 		{
 
 			string path =("test1.xml");//创建或者覆盖文件

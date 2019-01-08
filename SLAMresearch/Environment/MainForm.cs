@@ -50,6 +50,7 @@ namespace Environment
 			//g.CopyFromScreen(this.MapPictureBox.Left, this.Top + this.MapPictureBox.Top, 0, 0, new Size(this.MapPictureBox.Width, this.MapPictureBox.Height));//保存整个窗体为图片
 			//bit.Save("weiboTemp.png");
 
+
 			bp.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
 			fs.Close();
 			MessageBox.Show("生成成功");

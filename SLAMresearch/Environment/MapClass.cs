@@ -26,6 +26,7 @@ namespace Environment
 		public MapClass()
 		{
 			Posptlst = new List<MapKeyPoint>();
+			linestr = new List<LineStr>();
 		}
 	}
 }

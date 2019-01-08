@@ -44,7 +44,13 @@ namespace Environment
 	/// </summary>
 	public class LineStr
 	{
+		/// <summary>
+		/// 起始点
+		/// </summary>
 		public MapKeyPoint startpt;
+		/// <summary>
+		/// 终点
+		/// </summary>
 		public MapKeyPoint endpt;
 
 		/// <summary>

@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Environment
 {
@@ -50,8 +51,8 @@ namespace Environment
 			//g.CopyFromScreen(this.MapPictureBox.Left, this.Top + this.MapPictureBox.Top, 0, 0, new Size(this.MapPictureBox.Width, this.MapPictureBox.Height));//保存整个窗体为图片
 			//bit.Save("weiboTemp.png");
 
-
 			bp.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+			fs.Flush();
 			fs.Close();
 			MessageBox.Show("生成成功");
 		}
@@ -433,6 +434,35 @@ namespace Environment
 		}
 
 		private void backgroundWorkerSerial_DoWork(object sender, DoWorkEventArgs e)
+		{
+
+		}
+
+		public void WriteXml()
+		{
+
+			string path =("test1.xml");//创建或者覆盖文件
+			XmlTextWriter xml = new XmlTextWriter(path, Encoding.UTF8);
+			xml.Formatting = Formatting.Indented;
+			xml.WriteStartDocument();
+			xml.WriteStartElement("MESSAGE");
+			xml.WriteStartElement("feedback");
+
+			xml.WriteStartElement("邮箱");
+			xml.WriteCData("qwert@163.com");
+			xml.WriteEndElement();
+			xml.WriteStartElement("电话");
+			xml.WriteCData("134000000");
+			xml.WriteEndElement();
+
+			xml.WriteEndElement();
+			xml.WriteEndElement();
+			xml.WriteEndDocument();
+			xml.Flush();
+			xml.Close();
+		}
+
+		private void MapLoadBtn_Click(object sender, EventArgs e)
 		{
 
 		}

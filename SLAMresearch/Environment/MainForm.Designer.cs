@@ -52,6 +52,7 @@
 			this.GridSizetextBox = new System.Windows.Forms.TextBox();
 			this.serialPort_1 = new System.IO.Ports.SerialPort(this.components);
 			this.backgroundWorkerSerial = new System.ComponentModel.BackgroundWorker();
+			this.MapLoadBtn = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.MapContextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -260,6 +261,16 @@
 			// 
 			this.backgroundWorkerSerial.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerSerial_DoWork);
 			// 
+			// MapLoadBtn
+			// 
+			this.MapLoadBtn.Location = new System.Drawing.Point(13, 42);
+			this.MapLoadBtn.Name = "MapLoadBtn";
+			this.MapLoadBtn.Size = new System.Drawing.Size(75, 23);
+			this.MapLoadBtn.TabIndex = 0;
+			this.MapLoadBtn.Text = "导入地图";
+			this.MapLoadBtn.UseVisualStyleBackColor = true;
+			this.MapLoadBtn.Click += new System.EventHandler(this.MapLoadBtn_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -273,6 +284,7 @@
 			this.Controls.Add(this.Rec_text);
 			this.Controls.Add(this.DrawSelect);
 			this.Controls.Add(this.MapPictureBox);
+			this.Controls.Add(this.MapLoadBtn);
 			this.Controls.Add(this.MapGenBtn);
 			this.Name = "MainForm";
 			this.Text = "地图及数据生成工具";
@@ -312,6 +324,7 @@
 		private System.Windows.Forms.CheckedListBox EdgePointsList;
 		private System.IO.Ports.SerialPort serialPort_1;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerSerial;
+		private System.Windows.Forms.Button MapLoadBtn;
 	}
 }
 

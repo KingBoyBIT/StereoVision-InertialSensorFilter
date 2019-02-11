@@ -13,7 +13,8 @@ teData = testData(nTest); % generate some test data; this is a structure
 
 teData = findMeanVarTest(trData,teData); % compute the mean and variance of test data
 
-figure(1);cla(); hold on;
+figure(1)
+hold on
 plot(trData.x, trData.y, '--');
 plot(teData.x, teData.y, '.');
 xpl = [teData.x', fliplr(teData.x')]; %for making to a continous polygon for filling

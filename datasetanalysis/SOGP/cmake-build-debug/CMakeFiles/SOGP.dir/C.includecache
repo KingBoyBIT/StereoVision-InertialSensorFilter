@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Codes/githubcodes/StereoVision-InertialSensorFilter/datasetanalysis/SOGP/MatrixFunc.h
+
+D:/Codes/githubcodes/StereoVision-InertialSensorFilter/datasetanalysis/SOGP/main.c
+stdio.h
+-
+MatrixFunc.h
+D:/Codes/githubcodes/StereoVision-InertialSensorFilter/datasetanalysis/SOGP/MatrixFunc.h
+

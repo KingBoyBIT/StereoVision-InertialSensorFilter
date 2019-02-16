@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace Environment
 {
+	/// <summary>
+	/// 地图坐标点
+	/// </summary>
 	public class MapKeyPoint
 	{
 		public enum ptype:int
@@ -26,12 +29,22 @@ namespace Environment
 			p = new PointF(0, 0);
 			t = ptype.地形边界点;
 		}
-
+		/// <summary>
+		/// 创建地图点
+		/// </summary>
+		/// <param name="p"></param>
+		/// <param name="t"></param>
 		public MapKeyPoint(PointF p,ptype t)
 		{
 			this.p = p;
 			this.t = t;
 		}
+		/// <summary>
+		/// 点距离
+		/// </summary>
+		/// <param name="a">第一个点</param>
+		/// <param name="b">第二个点</param>
+		/// <returns></returns>
 		public static double PtDis(Point a,Point b)
 		{
 			double dis = Math.Sqrt(Math.Pow((a.X - b.X), 2) + Math.Pow((a.Y - b.Y), 2));

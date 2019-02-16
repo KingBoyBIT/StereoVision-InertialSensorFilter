@@ -18,7 +18,7 @@ namespace Environment
 		/// <summary>
 		/// 全部连接线
 		/// </summary>
-		public List<LineStr> linestr;
+		public List<LineStr> linestrlst;
 
 		/// <summary>
 		/// 创建地图
@@ -26,7 +26,7 @@ namespace Environment
 		public MapClass()
 		{
 			Posptlst = new List<MapKeyPoint>();
-			linestr = new List<LineStr>();
+			linestrlst = new List<LineStr>();
 		}
 	}
 }

@@ -53,6 +53,7 @@
 			this.serialPort_1 = new System.IO.Ports.SerialPort(this.components);
 			this.backgroundWorkerSerial = new System.ComponentModel.BackgroundWorker();
 			this.MapLoadBtn = new System.Windows.Forms.Button();
+			this.MapExportBtn = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.MapContextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -263,13 +264,23 @@
 			// 
 			// MapLoadBtn
 			// 
-			this.MapLoadBtn.Location = new System.Drawing.Point(13, 42);
+			this.MapLoadBtn.Location = new System.Drawing.Point(12, 42);
 			this.MapLoadBtn.Name = "MapLoadBtn";
 			this.MapLoadBtn.Size = new System.Drawing.Size(75, 23);
 			this.MapLoadBtn.TabIndex = 0;
 			this.MapLoadBtn.Text = "导入地图";
 			this.MapLoadBtn.UseVisualStyleBackColor = true;
 			this.MapLoadBtn.Click += new System.EventHandler(this.MapLoadBtn_Click);
+			// 
+			// MapExportBtn
+			// 
+			this.MapExportBtn.Location = new System.Drawing.Point(12, 71);
+			this.MapExportBtn.Name = "MapExportBtn";
+			this.MapExportBtn.Size = new System.Drawing.Size(75, 23);
+			this.MapExportBtn.TabIndex = 0;
+			this.MapExportBtn.Text = "导出地图";
+			this.MapExportBtn.UseVisualStyleBackColor = true;
+			this.MapExportBtn.Click += new System.EventHandler(this.MapExportBtn_Click);
 			// 
 			// MainForm
 			// 
@@ -284,6 +295,7 @@
 			this.Controls.Add(this.Rec_text);
 			this.Controls.Add(this.DrawSelect);
 			this.Controls.Add(this.MapPictureBox);
+			this.Controls.Add(this.MapExportBtn);
 			this.Controls.Add(this.MapLoadBtn);
 			this.Controls.Add(this.MapGenBtn);
 			this.Name = "MainForm";
@@ -325,6 +337,7 @@
 		private System.IO.Ports.SerialPort serialPort_1;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerSerial;
 		private System.Windows.Forms.Button MapLoadBtn;
+		private System.Windows.Forms.Button MapExportBtn;
 	}
 }
 

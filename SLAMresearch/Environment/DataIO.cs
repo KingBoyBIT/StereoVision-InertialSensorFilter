@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Environment
@@ -13,34 +14,37 @@ namespace Environment
 	public class DataIO
 	{
 
-		public void CreateXmlMapFile(MapClass map)
+		public static void CreateXmlMapFile(MapClass map,string filepath)
 		{
 			XmlDocument xmlDoc = new XmlDocument();
 			//创建类型声明节点    
 			XmlNode node = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", "");
 			xmlDoc.AppendChild(node);
 
-			List<CP> clist = new List<CP>();
-			clist = con.CP.ToList();
-			int ii = clist.Count;
 			//创建根节点    
-			XmlNode root = xmlDoc.CreateElement("User");
-
+			XmlNode root = xmlDoc.CreateElement("Posptlst");
 			xmlDoc.AppendChild(root);
-			for (int i = 0; i < ii; i++)
+			for (int i = 0; i < map.Posptlst.Count; i++)
 			{
-				CreateNode(xmlDoc, root, "Ids", clist[i].Ids.ToString());
-				CreateNode(xmlDoc, root, "Id", clist[i].ID.ToString());
-				CreateNode(xmlDoc, root, "PC", clist[i].PJ.ToString());
+				CreateNode(xmlDoc, root, "t", map.Posptlst[i].t.ToString());
+				CreateNode(xmlDoc, root, "p", map.Posptlst[i].p.ToString());
 			}
+			//XmlNode root_lines = xmlDoc.CreateElement("LineStr");
+			//xmlDoc.AppendChild(root_lines);
+			//for (int i = 0; i < map.linestrlst.Count; i++)
+			//{
+			//	CreateNode(xmlDoc, root_lines, "t", map.linestrlst[i].startpt.ToString());
+			//	CreateNode(xmlDoc, root_lines, "p", map.linestrlst[i].endpt.ToString());
+			//}
+
 			try
 			{
-				xmlDoc.Save("c://data2.xml");
+				xmlDoc.Save(filepath);
 			}
 			catch (Exception e)
 			{
 				//显示错误信息    
-				Console.WriteLine(e.Message);
+				MessageBox.Show(e.Message);
 			}
 			//Console.ReadLine();    
 		}
@@ -51,7 +55,7 @@ namespace Environment
 		/// <param name="parentnode"></param>父节点      
 		/// <param name="name"></param>  节点名    
 		/// <param name="value"></param>  节点值    
-		public void CreateNode(XmlDocument xmlDoc, XmlNode parentNode, string name, string value)
+		public static void CreateNode(XmlDocument xmlDoc, XmlNode parentNode, string name, string value)
 		{
 			XmlNode node = xmlDoc.CreateNode(XmlNodeType.Element, name, null);
 			node.InnerText = value;

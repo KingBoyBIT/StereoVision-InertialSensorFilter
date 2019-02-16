@@ -259,6 +259,7 @@ namespace Environment
 					break;
 			}
 			g.FillRectangle(b, pfd.p.X - size / 2, pfd.p.Y - size / 2, size, size);
+			map.Posptlst.Add(pfd);
 		}
 		/// <summary>
 		/// 删除一个定位点
@@ -271,6 +272,7 @@ namespace Environment
 			//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
 			Brush b = new SolidBrush(Color.White);
 			g.FillRectangle(b, pfd.p.X - size / 2, pfd.p.Y - size / 2, size, size);
+			map.Posptlst.Remove(pfd);
 		}
 		/// <summary>
 		/// 初始化地图画布
@@ -467,6 +469,13 @@ namespace Environment
 		{
 			//地图数据由XML编写
 
+		}
+
+		private void MapExportBtn_Click(object sender, EventArgs e)
+		{
+			DataIO.CreateXmlMapFile(map, "data.xml");
+			WriteMap();
+			MessageBox.Show("导出完成！");
 		}
 	}
 }

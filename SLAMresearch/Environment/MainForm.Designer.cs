@@ -54,6 +54,7 @@
 			this.backgroundWorkerSerial = new System.ComponentModel.BackgroundWorker();
 			this.MapLoadBtn = new System.Windows.Forms.Button();
 			this.MapExportBtn = new System.Windows.Forms.Button();
+			this.PathLoadBtn = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.MapContextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -282,6 +283,16 @@
 			this.MapExportBtn.UseVisualStyleBackColor = true;
 			this.MapExportBtn.Click += new System.EventHandler(this.MapExportBtn_Click);
 			// 
+			// PathLoadBtn
+			// 
+			this.PathLoadBtn.Location = new System.Drawing.Point(12, 100);
+			this.PathLoadBtn.Name = "PathLoadBtn";
+			this.PathLoadBtn.Size = new System.Drawing.Size(75, 23);
+			this.PathLoadBtn.TabIndex = 0;
+			this.PathLoadBtn.Text = "导入路径";
+			this.PathLoadBtn.UseVisualStyleBackColor = true;
+			this.PathLoadBtn.Click += new System.EventHandler(this.PathLoadBtn_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -296,6 +307,7 @@
 			this.Controls.Add(this.DrawSelect);
 			this.Controls.Add(this.MapPictureBox);
 			this.Controls.Add(this.MapExportBtn);
+			this.Controls.Add(this.PathLoadBtn);
 			this.Controls.Add(this.MapLoadBtn);
 			this.Controls.Add(this.MapGenBtn);
 			this.Name = "MainForm";
@@ -338,6 +350,7 @@
 		private System.ComponentModel.BackgroundWorker backgroundWorkerSerial;
 		private System.Windows.Forms.Button MapLoadBtn;
 		private System.Windows.Forms.Button MapExportBtn;
+		private System.Windows.Forms.Button PathLoadBtn;
 	}
 }
 

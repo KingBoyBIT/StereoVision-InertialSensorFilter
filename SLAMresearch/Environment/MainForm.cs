@@ -275,6 +275,56 @@ namespace Environment
 			map.Posptlst.Remove(pfd);
 		}
 		/// <summary>
+		/// 绘制一条边界线
+		/// </summary>
+		/// <param name="st">起始点</param>
+		/// <param name="et">终止点</param>
+		private void draw1line(MapKeyPoint st, MapKeyPoint et)
+		{
+			Graphics g = this.MapPictureBox.CreateGraphics();
+			this.Show();
+			//Pen p = new Pen(Color.White, 1);
+			//g.DrawRectangle(p, e.X - size / 2, e.Y - size / 2, size, size);
+			Pen b;
+			//Pen pen = new Pen(Color.Red, 5);
+			if (st.t!=et.t)
+			{
+				MessageBox.Show("点类型不一致");
+				return;
+			}
+			//int size = 100;
+			switch (st.t)
+			{
+				case MapKeyPoint.ptype.地形边界点:
+					b = new Pen(Color.Gray,size);
+					break;
+				case MapKeyPoint.ptype.障碍边界点:
+					b = new Pen(Color.AliceBlue, size);
+					break;
+				case MapKeyPoint.ptype.导航路标点:
+					b = new Pen(Color.Green, size);
+					break;
+				case MapKeyPoint.ptype.路径路标点:
+					b = new Pen(Color.YellowGreen, size);
+					break;
+				case MapKeyPoint.ptype.定位点:
+					b = new Pen(Color.Red, size);
+					break;
+				case MapKeyPoint.ptype.NULL:
+					b = new Pen(Color.White, size);
+					break;
+				default:
+					b = new Pen(Color.White, size);
+					break;
+			}
+			//g.FillRectangle(b, pfd.p.X - size / 2, pfd.p.Y - size / 2, size, size);
+			//g.FillPolygon(b, ps);
+			g.DrawLine(b, st.p, et.p);
+			LineStr ls = new LineStr(st, et);
+			map.linestrlst.Add(ls);
+		}
+
+		/// <summary>
 		/// 初始化地图画布
 		/// </summary>
 		/// <param name="sender"></param>
@@ -468,7 +518,84 @@ namespace Environment
 		private void MapLoadBtn_Click(object sender, EventArgs e)
 		{
 			//地图数据由XML编写
-
+			#region 默认数据
+			MapClass defaultmap = new MapClass();//临时地图
+			map.Posptlst.Clear();//清空地图
+			map.linestrlst.Clear();//清空地图
+			double scale = 18;//地图缩放比例
+			double Xoffset = 10;
+			double Yoffset = 10;
+			//[wall,point,xy]
+			double[,,] defaultMapWallData = { { { 0, 0}, { 0, 15} },
+							{ { 0, 15}, { 25, 15} },
+							{ { 25, 15}, { 25, 0} },
+							{ { 25, 0}, { 0, 0} },
+							{ { 0, 0}, { 0, 15} },
+							{ { 8.5, 15}, { 8.5, 10} },
+							{ { 8.5, 10}, { 7.5, 10} },
+							{ { 0, 7.5}, { 5, 7.5} },
+							{ { 5, 7.5}, { 5.0, 10} },
+							{ { 0.0, 10}, { 2.5, 10} },
+							{ { 4.5, 10}, { 5, 10} },
+							{ { 7.5, 7.5}, { 8.5, 7.5} },
+							{ { 8.5, 7.5}, { 8.5, 4.5} },
+							{ { 8.5, 2.5}, { 8.5, 0} },
+							{ { 8.5, 1.5}, { 9, 1.5} },
+							{ { 8.5, 5.5}, { 14.5, 5.5} },
+							{ { 11, 5.5}, { 11, 1.5} },
+							{ { 11, 1.5}, { 10.5, 1.5} },
+							{ { 16.5, 5.5}, { 20, 5.5} },
+							{ { 17.5, 5.5}, { 17.5, 0} },
+							{ { 10.5, 1.5}, { 11, 1.5} },
+							{ { 11, 1.5}, { 11.0, 0} },
+							{ { 15.5, 15}, { 15.5, 12.5} },
+							{ { 15.5, 10.5}, { 19.5, 10.5} },
+							{ { 19.5, 10.5}, { 19.5, 8} },
+							{ { 19.5, 8}, { 15.5, 8} },
+							{ { 15.5, 8}, { 15.5, 10.5} } };
+			MapKeyPoint st = new MapKeyPoint();
+			MapKeyPoint et = new MapKeyPoint();
+			for (int i = 0; i < defaultMapWallData.GetLength(0); i++)
+			{
+				for (int j = 0; j < defaultMapWallData.GetLength(1); j++)
+				{
+					PointF p = new PointF();
+					for (int k = 0; k < defaultMapWallData.GetLength(2); k++)
+					{
+						if (k == 0)
+						{
+							p.X = (float)(defaultMapWallData[i, j, k] * scale + Xoffset);
+						}
+						else
+						{
+							p.Y = (float)(defaultMapWallData[i, j, k] * scale + Yoffset);
+						}
+					}
+					MapKeyPoint mkp = new MapKeyPoint(p, MapKeyPoint.ptype.地形边界点);
+					defaultmap.Posptlst.Add(mkp);
+					if (j == 0)
+					{
+						st = mkp;
+					}
+					else
+					{
+						et = mkp;
+					}
+				}
+				LineStr ls = new LineStr(st, et);
+				defaultmap.linestrlst.Add(ls);
+			}
+			#endregion
+			#region 画布重绘，加载地图
+			for (int i = 0; i < defaultmap.Posptlst.Count; i++)
+			{
+				add1point(defaultmap.Posptlst[i]);
+			}
+			for (int i = 0; i < defaultmap.linestrlst.Count; i++)
+			{
+				draw1line(defaultmap.linestrlst[i].startpt, defaultmap.linestrlst[i].endpt);
+			}
+			#endregion
 		}
 
 		private void MapExportBtn_Click(object sender, EventArgs e)
@@ -476,6 +603,11 @@ namespace Environment
 			DataIO.CreateXmlMapFile(map, "data.xml");
 			WriteMap();
 			MessageBox.Show("导出完成！");
+		}
+
+		private void PathLoadBtn_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

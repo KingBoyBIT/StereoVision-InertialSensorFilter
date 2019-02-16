@@ -607,7 +607,7 @@ namespace Environment
 
 		private void PathLoadBtn_Click(object sender, EventArgs e)
 		{
-
+			//仅导入单点
 		}
 	}
 }

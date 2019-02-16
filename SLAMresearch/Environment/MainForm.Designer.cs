@@ -55,6 +55,7 @@
 			this.MapLoadBtn = new System.Windows.Forms.Button();
 			this.MapExportBtn = new System.Windows.Forms.Button();
 			this.PathLoadBtn = new System.Windows.Forms.Button();
+			this.RadarDataSimBtn = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.MapPictureBox)).BeginInit();
 			this.MapContextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -66,7 +67,7 @@
 			// 
 			this.MapGenBtn.Location = new System.Drawing.Point(13, 13);
 			this.MapGenBtn.Name = "MapGenBtn";
-			this.MapGenBtn.Size = new System.Drawing.Size(75, 23);
+			this.MapGenBtn.Size = new System.Drawing.Size(120, 23);
 			this.MapGenBtn.TabIndex = 0;
 			this.MapGenBtn.Text = "生成地图";
 			this.MapGenBtn.UseVisualStyleBackColor = true;
@@ -184,10 +185,10 @@
 			// 
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Location = new System.Drawing.Point(94, 12);
+			this.tabControl1.Location = new System.Drawing.Point(139, 12);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(484, 499);
+			this.tabControl1.Size = new System.Drawing.Size(439, 499);
 			this.tabControl1.TabIndex = 4;
 			// 
 			// tabPage1
@@ -196,7 +197,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(476, 473);
+			this.tabPage1.Size = new System.Drawing.Size(431, 473);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "定位点管理";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -267,7 +268,7 @@
 			// 
 			this.MapLoadBtn.Location = new System.Drawing.Point(12, 42);
 			this.MapLoadBtn.Name = "MapLoadBtn";
-			this.MapLoadBtn.Size = new System.Drawing.Size(75, 23);
+			this.MapLoadBtn.Size = new System.Drawing.Size(121, 23);
 			this.MapLoadBtn.TabIndex = 0;
 			this.MapLoadBtn.Text = "导入地图";
 			this.MapLoadBtn.UseVisualStyleBackColor = true;
@@ -277,7 +278,7 @@
 			// 
 			this.MapExportBtn.Location = new System.Drawing.Point(12, 71);
 			this.MapExportBtn.Name = "MapExportBtn";
-			this.MapExportBtn.Size = new System.Drawing.Size(75, 23);
+			this.MapExportBtn.Size = new System.Drawing.Size(121, 23);
 			this.MapExportBtn.TabIndex = 0;
 			this.MapExportBtn.Text = "导出地图";
 			this.MapExportBtn.UseVisualStyleBackColor = true;
@@ -287,11 +288,20 @@
 			// 
 			this.PathLoadBtn.Location = new System.Drawing.Point(12, 100);
 			this.PathLoadBtn.Name = "PathLoadBtn";
-			this.PathLoadBtn.Size = new System.Drawing.Size(75, 23);
+			this.PathLoadBtn.Size = new System.Drawing.Size(121, 23);
 			this.PathLoadBtn.TabIndex = 0;
 			this.PathLoadBtn.Text = "导入路径";
 			this.PathLoadBtn.UseVisualStyleBackColor = true;
 			this.PathLoadBtn.Click += new System.EventHandler(this.PathLoadBtn_Click);
+			// 
+			// RadarDataSimBtn
+			// 
+			this.RadarDataSimBtn.Location = new System.Drawing.Point(12, 129);
+			this.RadarDataSimBtn.Name = "RadarDataSimBtn";
+			this.RadarDataSimBtn.Size = new System.Drawing.Size(121, 23);
+			this.RadarDataSimBtn.TabIndex = 0;
+			this.RadarDataSimBtn.Text = "雷达数据仿真";
+			this.RadarDataSimBtn.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
@@ -307,6 +317,7 @@
 			this.Controls.Add(this.DrawSelect);
 			this.Controls.Add(this.MapPictureBox);
 			this.Controls.Add(this.MapExportBtn);
+			this.Controls.Add(this.RadarDataSimBtn);
 			this.Controls.Add(this.PathLoadBtn);
 			this.Controls.Add(this.MapLoadBtn);
 			this.Controls.Add(this.MapGenBtn);
@@ -351,6 +362,7 @@
 		private System.Windows.Forms.Button MapLoadBtn;
 		private System.Windows.Forms.Button MapExportBtn;
 		private System.Windows.Forms.Button PathLoadBtn;
+		private System.Windows.Forms.Button RadarDataSimBtn;
 	}
 }
 

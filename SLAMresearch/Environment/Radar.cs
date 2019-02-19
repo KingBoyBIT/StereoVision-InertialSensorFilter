@@ -8,5 +8,6 @@ namespace Environment
 {
 	public class Radar
 	{
+
 	}
 }

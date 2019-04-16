@@ -14,7 +14,7 @@ int main()
 
 
 	int ret = 0;
-	ret = cholesky(orig, 3, aug, 3, chol, cholaug, 0);
+	//ret = cholesky(orig, 3, aug, 3, chol, cholaug, 0);
 
 	printf("ret = %d\n", ret);
 	return 0;
